@@ -1,8 +1,7 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
-import { CharacterProfile } from "./quartz/components/CharacterProfile"
-import { SimpleMessage } from "./quartz/components/SimpleMessage"
-import { PropertiesTable } from "./quartz/components/PropertiesTable"
+import CharacterCard from "./quartz/components/CharacterCard"
+import PortraitSidebar from "./quartz/components/PortraitSidebar"
 
 /**
  * Quartz 4.0 Configuration
@@ -11,7 +10,7 @@ import { PropertiesTable } from "./quartz/components/PropertiesTable"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "🪴 Quartz 4.0",
+    pageTitle: " La Librairie du spectacle",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -20,7 +19,14 @@ const config: QuartzConfig = {
     },
     locale: "en-US",
     baseUrl: "quartz.jzhao.xyz",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    ignorePatterns: [
+      "private", 
+      "templates", 
+      ".obsidian", 
+      "_*",                // 匹配根目录下以下划线开头的文件
+      "**/_*",             // 匹配任意深度目录下以下划线开头的文件
+      "**/人物設定(DB)/_*"  // 特别针对这个目录的匹配
+    ],
     defaultDateType: "created",
     generateSocialImages: false,
     theme: {
@@ -33,15 +39,15 @@ const config: QuartzConfig = {
       },
       colors: {
         lightMode: {
-          light: "#faf8f8",
+          light: "#ffffff",
           lightgray: "#e5e5e5",
           gray: "#b8b8b8",
           darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#284b63",
+          dark: "#000000",
+          secondary: "#002fa7",
           tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
+          highlight: "rgba(0, 47, 167, 0.15)",
+          textHighlight: "#002fa788",
         },
         darkMode: {
           light: "#161618",
@@ -49,10 +55,10 @@ const config: QuartzConfig = {
           gray: "#646464",
           darkgray: "#d4d4d4",
           dark: "#ebebec",
-          secondary: "#7b97aa",
+          secondary: "#002fa7",
           tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
+          highlight: "rgba(0, 47, 167, 0.15)",
+          textHighlight: "#002fa788",
         },
       },
     },
@@ -94,10 +100,12 @@ const config: QuartzConfig = {
     ],
   },
   components: {
-    pageComponents: [
-      SimpleMessage(),
-      CharacterProfile(),
-      PropertiesTable(),
+    content: [
+      CharacterCard,
+    ],
+    pageBody: Plugin.ContentPage(),
+    right: [
+      PortraitSidebar(),
     ],
   },
 }

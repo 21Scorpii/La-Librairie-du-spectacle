@@ -25,6 +25,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
   function ContentMetadata({ cfg, fileData, displayClass }: QuartzComponentProps) {
     const text = fileData.text
+    const frontmatter = fileData.frontmatter
 
     if (text) {
       const segments: (string | JSX.Element)[] = []
@@ -42,10 +43,42 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         segments.push(<span>{displayedTime}</span>)
       }
 
+      // Create a function to display character information
+      const displayCharacterInfo = () => {
+        if (frontmatter.category !== "Chara") return null
+
+        return (
+          <div className="character-info">
+            {frontmatter.RealName && (
+              <p><strong>姓名:</strong> {frontmatter.RealName}</p>
+            )}
+            {frontmatter.Gender && (
+              <p><strong>性别:</strong> {Array.isArray(frontmatter.Gender) ? frontmatter.Gender.join(", ") : frontmatter.Gender}</p>
+            )}
+            {frontmatter.Nickname && (
+              <p><strong>昵称:</strong> {frontmatter.Nickname}</p>
+            )}
+            {frontmatter.Height && (
+              <p><strong>身高:</strong> {frontmatter.Height} cm</p>
+            )}
+            {frontmatter.Identity && (
+              <p><strong>身份:</strong> {frontmatter.Identity}</p>
+            )}
+            {frontmatter.正面感情觸發物 && (
+              <p><strong>正面感情触发物:</strong> {frontmatter.正面感情觸發物}</p>
+            )}
+            {frontmatter.負面感情觸發物 && (
+              <p><strong>负面感情触发物:</strong> {frontmatter.負面感情觸發物}</p>
+            )}
+          </div>
+        )
+      }
+
       return (
-        <p show-comma={options.showComma} class={classNames(displayClass, "content-meta")}>
+        <footer class={classNames(displayClass, "content-meta")}>
           {segments}
-        </p>
+          {displayCharacterInfo()}
+        </footer>
       )
     } else {
       return null
