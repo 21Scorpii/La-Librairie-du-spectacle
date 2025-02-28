@@ -5,10 +5,13 @@ export const CharacterProfile: QuartzComponentConstructor = () => {
     const { fileData } = props
     const frontmatter = fileData.frontmatter
 
-    // 調試信息
-    console.log("Rendering CharacterProfile for:", frontmatter.RealName)
+    // 调试信息 - 输出整个 frontmatter
+    console.log("Frontmatter 内容:", frontmatter)
 
-    // 檢查是否是角色頁面
+    // 调试信息 - 输出 category
+    console.log("Category:", frontmatter.category)
+
+    // 检查是否是角色页面
     if (frontmatter.category !== "Chara") {
       return null
     }
