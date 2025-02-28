@@ -15,3 +15,63 @@
         margin-right: 0.5rem;
     }
 }
+
+
+/* Properties Table 樣式 */
+
+.properties-container {
+    margin: 1.5rem 0;
+    padding: 0.5rem;
+}
+
+.properties-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: var(--light);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.property-row {
+    border-bottom: 1px solid var(--lightgray);
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.property-key {
+    padding: 0.5rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--secondary);
+    background-color: rgba(0, 0, 0, 0.03);
+    width: 25%;
+    vertical-align: top;
+}
+
+.property-value {
+    padding: 0.5rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    word-break: break-word;
+}
+
+.array-item {
+    margin: 0.25rem 0;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--lightgray);
+    &:first-child {
+        margin-top: 0;
+    }
+}
+
+.object-value {
+    margin: 0;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 4px;
+    overflow: auto;
+    font-size: 0.9em;
+}

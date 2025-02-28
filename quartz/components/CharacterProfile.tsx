@@ -5,17 +5,10 @@ export const CharacterProfile: QuartzComponentConstructor = () => {
     const { fileData } = props
     const frontmatter = fileData.frontmatter
 
-    // 调试信息 - 输出整个 frontmatter
-    console.log("Frontmatter 内容:", frontmatter)
-
-    // 调试信息 - 输出 category
-    console.log("Category:", frontmatter.category)
-
-    // 检查是否是角色页面
-    if (frontmatter.category !== "Chara") {
-      return null
-    }
-
+    // 完整的調試信息
+    console.log("CharacterProfile - Full frontmatter:", JSON.stringify(frontmatter, null, 2))
+    
+    // 檢查屬性是否存在 - 移除 category 檢查，先看整個屬性
     return (
       <div className="character-profile">
         <h2>角色信息</h2>
@@ -28,7 +21,9 @@ export const CharacterProfile: QuartzComponentConstructor = () => {
         
         {frontmatter.Gender && (
           <div className="character-attr">
-            <strong>性别:</strong> {frontmatter.Gender.join(", ")}
+            <strong>性别:</strong> {Array.isArray(frontmatter.Gender) 
+              ? frontmatter.Gender.join(", ") 
+              : frontmatter.Gender}
           </div>
         )}
         
@@ -56,11 +51,21 @@ export const CharacterProfile: QuartzComponentConstructor = () => {
           </div>
         )}
         
-        {frontmatter.aliases && frontmatter.aliases.length > 0 && (
+        {frontmatter.aliases && (
           <div className="character-attr">
-            <strong>别名:</strong> {frontmatter.aliases.join(", ")}
+            <strong>别名:</strong> {Array.isArray(frontmatter.aliases) 
+              ? frontmatter.aliases.join(", ") 
+              : frontmatter.aliases}
           </div>
         )}
+        
+        {/* 添加一個可見的调试信息 */}
+        <div className="debug-info" style={{ fontSize: '0.8em', color: '#888', marginTop: '1em' }}>
+          <details>
+            <summary>調試信息</summary>
+            <pre>{JSON.stringify(frontmatter, null, 2)}</pre>
+          </details>
+        </div>
       </div>
     )
   }

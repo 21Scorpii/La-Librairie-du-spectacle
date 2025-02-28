@@ -2,6 +2,7 @@ import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 import { CharacterProfile } from "./quartz/components/CharacterProfile"
 import { SimpleMessage } from "./quartz/components/SimpleMessage"
+import { PropertiesTable } from "./quartz/components/PropertiesTable"
 
 /**
  * Quartz 4.0 Configuration
@@ -96,6 +97,7 @@ const config: QuartzConfig = {
     pageComponents: [
       SimpleMessage(),
       CharacterProfile(),
+      PropertiesTable(),
     ],
   },
 }
