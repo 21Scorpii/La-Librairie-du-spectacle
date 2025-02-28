@@ -11,14 +11,14 @@ import PortraitSidebar from "./quartz/components/PortraitSidebar"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: " La Librairie du spectacle",
-    pageTitleSuffix: "",
+    pageTitleSuffix: "La Librairie du spectacle",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
       provider: "plausible",
     },
-    locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
+    locale: "zh-TW",
+    baseUrl: "https://llds.netlify.app",
     ignorePatterns: [
       "private", 
       "templates", 

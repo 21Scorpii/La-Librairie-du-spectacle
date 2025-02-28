@@ -123,7 +123,7 @@ export default (() => {
 
     const iconPath = joinSegments(baseDir, "static/icon.png")
 
-    const ogImageDefaultPath = `https://${cfg.baseUrl}/static/og-image.png`
+    const ogImageDefaultPath = `static/og-image.png`
     // "static/social-images/slug-filename.md.webp"
     const ogImageGeneratedPath = `https://${cfg.baseUrl}/${fileDir.replace(
       `${ctx.argv.output}/`,
@@ -194,7 +194,9 @@ export default (() => {
             <meta property="twitter:url" content={socialUrl}></meta>
           </>
         )}
-        <link rel="icon" href={iconPath} />
+        <link rel="icon" href="/static/favicon.ico" sizes="any" />
+        <link rel="icon" href="/static/icon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
