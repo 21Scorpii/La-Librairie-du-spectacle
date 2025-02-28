@@ -1,0 +1,68 @@
+.galleryContainer {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.galleryTitle {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+.noGallery {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2em;
+    color: #888;
+}
+
+:global(.gallery-grid) {
+    margin: 0 auto;
+    width: 100%;
+}
+
+:global(.gallery-sizer) {
+    width: 32%;
+}
+
+:global(.gallery-item) {
+    width: 32%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+:global(.gallery-item:hover) {
+    transform: translateY(-5px);
+}
+
+:global(.gallery-item img) {
+    width: 100%;
+    display: block;
+    transition: opacity 0.3s;
+}
+
+:global(.gallery-item img:hover) {
+    opacity: 0.9;
+}
+
+
+/* 响应式布局 */
+
+@media (max-width: 1200px) {
+     :global(.gallery-sizer),
+     :global(.gallery-item) {
+        width: 48%;
+    }
+}
+
+@media (max-width: 768px) {
+     :global(.gallery-sizer),
+     :global(.gallery-item) {
+        width: 100%;
+    }
+}

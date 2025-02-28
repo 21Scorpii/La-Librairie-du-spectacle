@@ -1,7 +1,5 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
-import CharacterCard from "./quartz/components/CharacterCard"
-import PortraitSidebar from "./quartz/components/PortraitSidebar"
 
 /**
  * Quartz 4.0 Configuration
@@ -25,7 +23,7 @@ const config: QuartzConfig = {
       ".obsidian", 
       "_*",                // 匹配根目录下以下划线开头的文件
       "**/_*",             // 匹配任意深度目录下以下划线开头的文件
-      "**/人物設定(DB)/_*"  // 特别针对这个目录的匹配
+      "**/人物設定(DB)/_*",  // 特别针对这个目录的匹配
     ],
     defaultDateType: "created",
     generateSocialImages: false,
@@ -97,15 +95,6 @@ const config: QuartzConfig = {
       Plugin.Assets(),
       Plugin.Static(),
       Plugin.NotFoundPage(),
-    ],
-  },
-  components: {
-    content: [
-      CharacterCard,
-    ],
-    pageBody: Plugin.ContentPage(),
-    right: [
-      PortraitSidebar(),
     ],
   },
 }

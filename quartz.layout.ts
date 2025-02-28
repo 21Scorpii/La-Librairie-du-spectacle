@@ -23,6 +23,9 @@ import {
   Breadcrumbs,
   Comments
 } from "./quartz/components"
+import ImageGallery from "./quartz/components/ImageGallery"
+import CharacterCard from "./quartz/components/CharacterCard"
+import PortraitSidebar from "./quartz/components/PortraitSidebar"
 
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
@@ -44,6 +47,8 @@ export const defaultContentPageLayout: PageLayout = {
     ArticleTitle(),
     ContentMeta(),
     TagList(),
+    ImageGallery,
+    CharacterCard,
   ],
   left: [
     PageTitle(),
@@ -56,6 +61,7 @@ export const defaultContentPageLayout: PageLayout = {
     Graph(),
     DesktopOnly(TableOfContents()),
     Backlinks(),
+    PortraitSidebar(),
   ],
 }
 

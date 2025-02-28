@@ -147,11 +147,13 @@ title: 角色畫廊
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .character-slider {
   display: none;
-  margin: 20px 0;
+  margin: 20px auto;
+  width: 100%;
 }
 
 .character-slider.active {
@@ -212,19 +214,61 @@ title: 角色畫廊
   color: var(--light);
 }
 
-/* 說明文字樣式 */
+/* 說明文字樣式 - 完全重寫 */
 .slide-caption {
-  margin-top: 15px;
+  margin: 20px auto 0;
   text-align: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
+/* 隱藏所有Quartz生成的懸停元素 */
+.slide-caption h3 a:after,
+.slide-caption h3 a:before,
+.slide-caption h3:after,
+.slide-caption h3:before,
+.slide-caption h3 .internal-link:after,
+.slide-caption h3 .internal-link:before,
+.slide-caption * .heading-anchor:after,
+.slide-caption * .heading-anchor:before,
+.slide-caption * .internal-link:after,
+.slide-caption * .internal-link:before {
+  display: none !important;
+  opacity: 0 !important;
+  content: none !important;
+  visibility: hidden !important;
+}
+
+/* 完全重置標題樣式 */
 .slide-caption h3 {
-  margin: 0;
-  color: var(--dark);
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  position: static;
+  line-height: 1.5;
+  font-size: 1.5em;
 }
 
+/* 強制覆蓋任何可能的Quartz樣式 */
+.slide-caption h3,
+.slide-caption h3 a,
+.slide-caption h3 span,
+.slide-caption h3 * {
+  display: inline !important;
+  text-align: center !important;
+  position: static !important;
+}
+
+/* 確保段落文本也完全居中 */
 .slide-caption p {
-  margin: 5px 0 0;
+  display: block;
+  width: 100%;
+  margin: 10px auto;
+  text-align: center;
   color: var(--gray);
 }
 
@@ -262,7 +306,12 @@ title: 角色畫廊
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 2;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  line-height: 1;
   
   /* 增加陰影效果，提高可見度 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -345,16 +394,125 @@ title: 角色畫廊
   width: 12px;
   height: 12px;
   opacity: 0.7;
+  background-color: #777;
+  border: none;
+  border-radius: 50%;
+  margin: 0 3px;
+  padding: 0;
+  cursor: pointer;
 }
 
 .glide__bullet--active {
   opacity: 1;
+  background-color: var(--secondary);
   transform: scale(1.3);
+}
+
+/* 修正輪播容器和內容的對齊問題 */
+.glide, .glide__track, .glide__slides {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.glide__slides {
+  align-items: center;
+  justify-content: center;
+}
+
+/* 全局覆蓋Quartz的標題樣式 - 更強力的選擇器 */
+body .article .content h1, 
+body .article .content h2,
+body .article .content h3,
+body .article .content h4,
+body .article .content h5,
+body .article .content h6,
+body .article .content .slide-caption h3,
+.article .content h1,
+.article .content h2,
+.article .content h3,
+.article .content h4,
+.article .content h5,
+.article .content h6,
+.article .content .slide-caption h3 {
+  text-align: center !important;
+}
+
+/* 徹底禁用所有的懸停圖標 */
+body .article a.internal-link::after,
+body .article a.tag::after,
+body .article a.heading-anchor::after,
+body .article .slide-caption a::after,
+body .article .slide-caption h3::after,
+.article a.internal-link::after,
+.article a.tag::after,
+.article a.heading-anchor::after,
+.article .slide-caption a::after,
+.article .slide-caption h3::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 清除任何可能的浮動影響 */
+.slide-caption:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* 強制所有文本元素居中對齊 */
+.slide-caption *,
+.slide-caption h3,
+.slide-caption p,
+.slide-caption a {
+  text-align: center !important;
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 為確保懸停圖標絕對不顯示，使用更激進的方式 */
+.slide-caption h3:before,
+.slide-caption h3:after,
+.slide-caption a:before,
+.slide-caption a:after {
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  z-index: -9999 !important;
+  content: "" !important;
 }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+// 確保腳本只會執行一次的標記
+if (typeof window.characterGalleryInitialized === 'undefined') {
+  window.characterGalleryInitialized = false;
+}
+
+// 初始化函數
+function initCharacterGallery() {
+  // 避免重複初始化
+  if (window.characterGalleryInitialized) return;
+  window.characterGalleryInitialized = true;
+
+  // 檢查 Glide.js 是否已加載
+  if (typeof Glide === 'undefined') {
+    console.error('Glide.js 未加載，嘗試重新加載...');
+    // 嘗試重新加載 Glide.js
+    const glideScript = document.createElement('script');
+    glideScript.src = 'https://cdn.jsdelivr.net/npm/@glidejs/glide';
+    glideScript.onload = initCharacterGallery;
+    document.head.appendChild(glideScript);
+    return;
+  }
+
+  console.log('初始化角色畫廊...');
+  
   // 初始化所有輪播
   const sliders = {};
   
@@ -368,15 +526,20 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       
       // 重新初始化
-      sliders[id] = new Glide(`#${id}`, {
-        type: 'carousel',
-        perView: 1,
-        focusAt: 'center',
-        gap: 0,
-        autoplay: 5000,
-        hoverpause: true,
-        animationDuration: 800
-      }).mount();
+      try {
+        console.log(`初始化輪播: ${id}`);
+        sliders[id] = new Glide(`#${id}`, {
+          type: 'carousel',
+          perView: 1,
+          focusAt: 'center',
+          gap: 0,
+          autoplay: 5000,
+          hoverpause: true,
+          animationDuration: 800
+        }).mount();
+      } catch (e) {
+        console.error(`初始化輪播 ${id} 失敗:`, e);
+      }
     });
   }
   
@@ -418,7 +581,10 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // 確保該輪播已初始化並更新
         if (sliders[slider.id]) {
-          sliders[slider.id].update();
+          setTimeout(() => {
+            console.log(`更新輪播: ${slider.id}`);
+            sliders[slider.id].update();
+          }, 50); // 給DOM一些時間來響應切換
         }
       } else {
         slider.classList.remove('active');
@@ -430,6 +596,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.char-btn').forEach(button => {
     button.addEventListener('click', function() {
       const targetId = this.getAttribute('data-target');
+      console.log(`點擊角色按鈕: ${targetId}`);
       
       // 更新活動角色
       showCharacter(targetId);
@@ -443,7 +610,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function handleHash() {
     const hash = window.location.hash.substring(1);
     if (hash) {
-      // 修正選擇器語法
+      console.log(`從 URL 錨點跳轉到: ${hash}`);
+      // 檢查是否有與錨點匹配的按鈕
       const targetButton = document.querySelector(`.char-btn[data-target="${hash}"]`);
       if (targetButton) {
         targetButton.click();
@@ -456,5 +624,22 @@ document.addEventListener('DOMContentLoaded', function () {
   
   // 初始加載時檢查錨點
   handleHash();
+}
+
+// 使用多種方法確保腳本能夠正確執行
+document.addEventListener('DOMContentLoaded', function() {
+  // 如果 Glide.js 已加載，立即初始化
+  if (typeof Glide !== 'undefined') {
+    initCharacterGallery();
+  } else {
+    // 否則等待一小段時間再嘗試
+    setTimeout(initCharacterGallery, 200);
+  }
 });
+
+// 備份方案：頁面加載完成後再次嘗試初始化
+window.addEventListener('load', initCharacterGallery);
+
+// 最後的防禦線：如果一切都失敗了，在 2 秒後再次嘗試
+setTimeout(initCharacterGallery, 2000);
 </script> 
