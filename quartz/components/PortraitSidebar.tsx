@@ -8,6 +8,10 @@ function PortraitSidebar({ fileData }: QuartzComponentProps) {
   // 2. 或者通过正则/HTML解析，从 fileData.text 中抓取第1张图片
   // 这里演示从 frontmatter.image 获取
   const imagePath = frontmatter.image
+    ? (frontmatter.image.startsWith('/') 
+      ? frontmatter.image 
+      : `/${frontmatter.image}`)
+    : null;
 
   // 如果没有图片，或者不是角色，返回 null
   if (!imagePath || frontmatter.category !== "Chara") {
