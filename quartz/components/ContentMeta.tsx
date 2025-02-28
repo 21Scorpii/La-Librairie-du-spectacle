@@ -55,8 +55,11 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
             {frontmatter.Gender && (
               <p><strong>性别:</strong> {Array.isArray(frontmatter.Gender) ? frontmatter.Gender.join(", ") : frontmatter.Gender}</p>
             )}
+            {frontmatter.Age && (
+              <p><strong>年齡:</strong> {frontmatter.Age}</p>
+            )}
             {frontmatter.Nickname && (
-              <p><strong>昵称:</strong> {frontmatter.Nickname}</p>
+              <p><strong>昵稱:</strong> {frontmatter.Nickname}</p>
             )}
             {frontmatter.Height && (
               <p><strong>身高:</strong> {frontmatter.Height} cm</p>
@@ -65,10 +68,10 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
               <p><strong>身份:</strong> {frontmatter.Identity}</p>
             )}
             {frontmatter.正面感情觸發物 && (
-              <p><strong>正面感情触发物:</strong> {frontmatter.正面感情觸發物}</p>
+              <p><strong>正面感情觸發物:</strong> {frontmatter.正面感情觸發物}</p>
             )}
             {frontmatter.負面感情觸發物 && (
-              <p><strong>负面感情触发物:</strong> {frontmatter.負面感情觸發物}</p>
+              <p><strong>負面感情觸發物:</strong> {frontmatter.負面感情觸發物}</p>
             )}
           </div>
         )

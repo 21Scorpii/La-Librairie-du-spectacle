@@ -42,6 +42,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
       {list.map((page) => {
         const title = page.frontmatter?.title
         const tags = page.frontmatter?.tags ?? []
+        const icon = page.frontmatter?.icon || "📄"
 
         return (
           <li class="section-li">
@@ -52,7 +53,7 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort
               <div class="desc">
                 <h3>
                   <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
-                    {title}
+                    <span className="page-icon">{icon}</span> {title}
                   </a>
                 </h3>
               </div>

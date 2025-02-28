@@ -33,6 +33,11 @@ function CharacterCard({ fileData }: QuartzComponentProps) {
         </div>
         
         <div className={style.infoRow}>
+          <span className={style.label}>年龄:</span>
+          <span className={style.value}>{frontmatter.Age || "未知"}</span>
+        </div>
+        
+        <div className={style.infoRow}>
           <span className={style.label}>身高:</span>
           <span className={style.value}>{frontmatter.Height || "未知"} cm</span>
         </div>
@@ -43,12 +48,12 @@ function CharacterCard({ fileData }: QuartzComponentProps) {
         </div>
         
         <div className={style.infoRow}>
-          <span className={style.label}>正面感情触发物:</span>
+          <span className={style.label}>正面感情觸發物:</span>
           <span className={style.value}>{frontmatter.正面感情觸發物 || "无"}</span>
         </div>
         
         <div className={style.infoRow}>
-          <span className={style.label}>负面感情触发物:</span>
+          <span className={style.label}>負面感情觸發物:</span>
           <span className={style.value}>{frontmatter.負面感情觸發物 || "无"}</span>
         </div>
       </div>

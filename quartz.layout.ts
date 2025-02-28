@@ -1,12 +1,35 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
-import * as Component from "./quartz/components"
+import { 
+  ArticleTitle,
+  Content,
+  TagContent,
+  FolderContent,
+  Darkmode,
+  Head,
+  PageTitle,
+  ContentMeta,
+  Spacer,
+  TableOfContents,
+  Explorer,
+  TagList,
+  Graph,
+  Backlinks,
+  Search,
+  Footer,
+  DesktopOnly,
+  MobileOnly,
+  RecentNotes,
+  NotFound,
+  Breadcrumbs,
+  Comments
+} from "./quartz/components"
 
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
-  head: Component.Head(),
+  head: Head(),
   header: [],
   afterBody: [],
-  footer: Component.Footer({
+  footer: Footer({
     links: {
       GitHub: "https://github.com/jackyzha0/quartz",
       "Discord Community": "https://discord.gg/cRFFHYye7t",
@@ -17,34 +40,34 @@ export const sharedPageComponents: SharedLayout = {
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
-    Component.Breadcrumbs(),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
+    Breadcrumbs(),
+    ArticleTitle(),
+    ContentMeta(),
+    TagList(),
   ],
   left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
-    Component.Darkmode(),
-    Component.Explorer(),
+    PageTitle(),
+    MobileOnly(Spacer()),
+    Search(),
+    Darkmode(),
+    Explorer({}),
   ],
   right: [
-    Component.Graph(),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
+    Graph(),
+    DesktopOnly(TableOfContents()),
+    Backlinks(),
   ],
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  beforeBody: [Breadcrumbs(), ArticleTitle(), ContentMeta()],
   left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
-    Component.Darkmode(),
-    Component.Explorer(),
+    PageTitle(),
+    MobileOnly(Spacer()),
+    Search(),
+    Darkmode(),
+    Explorer({}),
   ],
   right: [],
 }

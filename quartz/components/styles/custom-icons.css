@@ -1,0 +1,25 @@
+/* quartz/styles/custom-icons.css */
+
+.file-icon {
+    margin-right: 0.5em;
+    display: inline-block;
+}
+
+const icon=file.frontmatter?.icon || "" // 默认空字符串（无图标）
+return ( <li> <a href= {
+    file.url
+}
+
+> {
+    icon && <span className="file-icon"> {
+        icon
+    }
+    </span>
+}
+
+{
+    file.displayName
+}
+
+</a> </li>)
+}

@@ -6,6 +6,7 @@ export const QuartzFrontmatterSchema = z.object({
   sticker: z.string().optional(),
   Nickname: z.string().optional(),
   Height: z.string().optional(),
+  Age: z.string().optional(),
   正面感情觸發物: z.string().optional(),
   Identity: z.string().optional(),
   負面感情觸發物: z.string().optional(),
