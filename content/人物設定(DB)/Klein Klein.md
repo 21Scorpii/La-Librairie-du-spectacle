@@ -10,11 +10,9 @@ Identity: CREN研究員，溫室老闆
 正面感情觸發物: 微氣候變化，玻璃製品，場論，寬鬆的衣物
 負面感情觸發物: 無法量化的對話
 category: Chara
-image: _Attach/Image/插画26.png
-Age: "17"
+image: _Attach/Image/avatar/icon/klein-icon.png
 ---
 
-![[kln-tachie.PNG|300]]
 
 在[[DOWN-TOWN]]市中心擁有超大[[温室]]的神秘角色。
 

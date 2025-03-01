@@ -194,7 +194,7 @@ export default (() => {
             <meta property="twitter:url" content={socialUrl}></meta>
           </>
         )}
-        <link rel="icon" href="/static/favicon.ico" sizes="any" />
+
         <link rel="icon" href="/static/icon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
         <meta name="description" content={description} />

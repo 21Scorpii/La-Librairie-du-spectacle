@@ -1,0 +1,8 @@
+[33mcommit 02d4955a3e7ed92ce6e8ffdeb5eedf7511d9c3ba[m[33m ([m[1;36mHEAD -> [m[1;32mv4[m[33m)[m
+Author: Fukami <471466563@qq.com>
+Date:   Sun Mar 2 07:11:35 2025 +0900
+
+    Fix HTML entity encoding issues in gallery.md JavaScript code
+
+ content/gallery.md | 1371 [32m+++++++++++++++++++++++++++++++++++[m[31m-----------------[m
+ 1 file changed, 916 insertions(+), 455 deletions(-)

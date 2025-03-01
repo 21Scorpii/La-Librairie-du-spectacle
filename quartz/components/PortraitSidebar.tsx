@@ -21,7 +21,7 @@ function PortraitSidebar({ fileData }: QuartzComponentProps) {
   return (
     <aside className="portrait-sidebar">
       {/* 侧边标题 */}
-      <h3>人物图像</h3>
+      <h3>Avatar</h3>
       {/* 这里也可加"Graph View"下方标题或介绍，如果需要 */}
       <img 
         src={imagePath}

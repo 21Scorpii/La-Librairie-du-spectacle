@@ -13,6 +13,8 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: {
+      // 原始配置使用 "plausible"，但在本地開發環境中會顯示 "Ignoring Event: localhost" 錯誤
+      // 如果不需要分析功能，可以將下行注釋掉
       provider: "plausible",
     },
     locale: "zh-TW",

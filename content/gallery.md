@@ -7,11 +7,13 @@ title: 角色畫廊
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide" defer></script>
 
-<!-- 引入 lightGallery -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-zoom.css">
+<!-- 添加 lightGallery 和 mediumZoom 插件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-zoom.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-medium-zoom.min.css">
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/mediumZoom/lg-medium-zoom.min.js" defer></script>
 
 <!-- 角色快速跳轉 -->
 <div class="character-nav" id="character-nav">
@@ -187,7 +189,7 @@ title: 角色畫廊
 .glide__arrow {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+
   background: var(--light);
   color: var(--secondary);
   border: 1px solid var(--lightgray);
@@ -384,8 +386,8 @@ body .article .slide-caption h3::after,
   max-width: 1200px;
   margin: 30px auto;
   column-count: 3;
-  column-gap: 20px;
-  display: none;
+  column-gap: 2px; /* 進一步縮小間距到2px */
+  display: block; /* 默認顯示，不再使用none隱藏 */
 }
 
 @media (max-width: 1100px) {
@@ -412,29 +414,12 @@ body .article .slide-caption h3::after,
 /* 始终隐藏所有图片说明 */
 .image-caption {
   display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  opacity: 0 !important;
-}
-
-/* 隐藏轮播图中的说明文字 */
-.slide-caption {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  opacity: 0 !important;
 }
 
 .masonry-item {
   break-inside: avoid;
-  margin-bottom: 20px;
-  display: none;
+  margin-bottom: 2px; /* 進一步縮小間距到2px */
+  display: block; /* 默認顯示所有項目 */
   cursor: pointer;
 }
 
@@ -445,12 +430,12 @@ body .article .slide-caption h3::after,
 .masonry-item .image-container {
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
-  /* 移除陰影 */
-  /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
+  border-radius: 4px; /* 縮小圓角 */
   transition: transform 0.3s ease;
   display: block;
   width: 100%;
+  padding: 0; /* 去除所有內邊距 */
+  margin: 0; /* 去除所有外邊距 */
 }
 
 .masonry-item .image-container:hover {
@@ -459,10 +444,19 @@ body .article .slide-caption h3::after,
   /* box-shadow: 0 8px 16px rgba(0,0,0,0.2); */
 }
 
+.masonry-item figure.blog-images {
+  margin: 0; /* 去除figure預設的margin */
+  padding: 0; /* 去除figure預設的padding */
+  width: 100%;
+  display: block;
+}
+
 .masonry-item img {
   width: 100%;
   display: block;
-  border-radius: 8px;
+  border-radius: 4px; /* 縮小圓角 */
+  margin: 0; /* 去除所有外邊距 */
+  padding: 0; /* 去除所有內邊距 */
 }
 
 .masonry-item .image-caption {
@@ -494,23 +488,145 @@ body .article .slide-caption h3::after,
 .lg-backdrop {
   background-color: rgba(0, 0, 0, 0.85);
 }
+
+/* Medium Zoom 樣式（參考官方示例） */
+.masonry-item .image-container {
+  position: relative;
+  cursor: zoom-in;
+}
+
+.masonry-item .image-container img {
+  cursor: zoom-in;
+  transition: opacity 0.5s;
+}
+
+/* Medium Zoom 動畫相關樣式 */
+.lg-medium-zoom-item {
+  cursor: zoom-in;
+}
+
+.lg-medium-zoom {
+  background-color: rgba(0, 0, 0, 0.85) !important; /* 修改為半透明黑色背景 */
+}
+
+/* 禁用所有缩放动画效果 */
+.lg-outer.lg-medium-zoom.lg-zoom-drag-transition .lg-image {
+  transition: none !important;
+}
+
+.lg-outer.lg-medium-zoom .lg-item {
+  background-color: transparent !important;
+}
+
+.lg-medium-zoom .lg-img-wrap {
+  padding: 0 !important;
+  /* 移除变换原点设置 */
+  transform-origin: center center !important;
+}
+
+/* 移除图片过渡效果 */
+.lg-medium-zoom .lg-image {
+  transform-origin: center center !important;
+  transition: none !important;
+}
+
+.lg-medium-zoom .lg-toolbar {
+  background: transparent;
+}
+
+.lg-medium-zoom .lg-close {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.3s ease;
+}
+
+.lg-medium-zoom .lg-close:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* 禁用所有过渡动画效果 */
+.lg-medium-zoom-enter, 
+.lg-medium-zoom-leaving {
+  transform-origin: center center !important;
+  transition: none !important;
+}
+
+/* 禁用所有CSS动画 */
+.lg-css3.lg-medium-zoom .lg-item.lg-prev-slide,
+.lg-css3.lg-medium-zoom .lg-item.lg-next-slide,
+.lg-css3.lg-medium-zoom .lg-item.lg-current {
+  transform-origin: center center !important;
+  transition: none !important;
+}
+
+/* 暗色模式下的調整 */
+@media (prefers-color-scheme: dark) {
+  .lg-medium-zoom {
+    background-color: rgba(0, 0, 0, 0.85) !important; /* 保持与亮色模式一致的半透明黑色背景 */
+  }
+  
+  .lg-medium-zoom .lg-close {
+    color: #ccc;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .lg-medium-zoom .lg-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* 全局禁用 lightGallery 所有過渡效果 */
+.lg-css3.lg-fade .lg-item {
+  transition: none !important;
+}
+
+.lg-css3.lg-fade .lg-item.lg-prev-slide,
+.lg-css3.lg-fade .lg-item.lg-next-slide,
+.lg-css3.lg-fade .lg-item.lg-current {
+  transition: none !important;
+}
+
+.lg-css3.lg-slide.lg-use-css3 .lg-item {
+  transition: none !important;
+}
+
+.lg-css3.lg-slide.lg-use-css3 .lg-item.lg-prev-slide,
+.lg-css3.lg-slide.lg-use-css3 .lg-item.lg-next-slide,
+.lg-css3.lg-slide.lg-use-css3 .lg-item.lg-current {
+  transition: none !important;
+}
+
+.lg-css3.lg-zoom-in .lg-item {
+  transition: none !important;
+}
+
+.lg-css3.lg-zoom-in .lg-item.lg-prev-slide,
+.lg-css3.lg-zoom-in .lg-item.lg-next-slide,
+.lg-css3.lg-zoom-in .lg-item.lg-current {
+  transition: none !important;
+}
+
+/* 禁用所有可能的过渡效果 */
+.lg-outer * {
+  transition: none !important;
+}
+
+/* 确保快速显示与隐藏 */
+.lg-backdrop {
+  transition: none !important;
+  animation: none !important;
+}
 </style>
 
 <script>
 (function() {
-  // 添加全局错误处理
-  window.addEventListener('error', function(event) {
-    console.error('全局错误捕获:', event.error || event.message);
-    // 尝试打印更多错误信息
-    if (event.error && event.error.stack) {
-      console.error('错误堆栈:', event.error.stack);
-    }
-    
-    // 防止错误影响用户体验
-    event.preventDefault();
-    return true;
-  });
-  
   // 定義角色數據 - 只需要編輯這個數組來添加新角色
   const characterGalleryData = [
     {
@@ -531,7 +647,7 @@ body .article .slide-caption h3::after,
         },
         {
           src: '_Attach/Image/IMG_6340.JPG',
-          alt: '黑村紫',
+          alt: '鼠紫',
           fallback: null
         }
       ]
@@ -549,7 +665,7 @@ body .article .slide-caption h3::after,
         },
         {
           src: '_Attach/Image/IMG_6340.JPG',
-          alt: '東山旅其他立繪',
+          alt: '鼠紫',
           fallback: '_Attach/Image/IMG_6340.jpg'
         },
         {
@@ -567,7 +683,7 @@ body .article .slide-caption h3::after,
       images: [
         {
           src: '_Attach/Image/stn2.png',
-          alt: '赤井刹那其他圖片',
+          alt: '實驗室',
           fallback: null // 移除相同的备用路径，使用null更合适
         }
       ]
@@ -621,78 +737,28 @@ body .article .slide-caption h3::after,
   // 添加對 Quartz SPA 導航事件的監聽
   document.addEventListener('nav', function() {
     console.log('Quartz 導航事件檢測到，重新初始化畫廊');
+    // 重置初始化標誌，允許重新初始化
+    characterGalleryInitialized = false;
     
-    // 防止多次初始化或资源冲突
-    setTimeout(() => {
-      // 重置初始化標誌，允許重新初始化
-      characterGalleryInitialized = false;
-      
-      // 如果存在 lightGallery 實例，先銷毀它
-      if (lightGalleryInstance) {
-        try {
-          console.log('銷毀先前的lightGallery實例');
-          lightGalleryInstance.destroy();
-        } catch (e) {
-          console.error('銷毀lightGallery實例時出錯:', e);
-        } finally {
-          lightGalleryInstance = null;
-        }
+    // 如果存在 lightGallery 實例，先銷毀它
+    if (lightGalleryInstance) {
+      try {
+        console.log('銷毀先前的lightGallery實例');
+        lightGalleryInstance.destroy();
+      } catch (e) {
+        console.error('銷毀lightGallery實例時出錯:', e);
+      } finally {
+        lightGalleryInstance = null;
       }
-      
-      // 嘗試初始化畫廊
-      if(typeof Glide !== 'undefined') {
-        setTimeout(initGallery, 200); // 延迟一点执行，确保DOM已更新
-      } else {
-        waitForGlide();
-      }
-    }, 10);
-  });
-
-  // 避免在Markdown处理过程中出现转义字符问题的辅助函数
-  function safeCheck(value) {
-    if (!value) return false;
-    if (typeof value !== 'string') return false;
-    return value.trim() !== '';
-  }
-  
-  // 安全地读取属性，避免HTML转义字符问题
-  function safeGetAttribute(element, attr) {
-    if (!element) return '';
-    const value = element.getAttribute(attr);
-    if (!safeCheck(value)) return '';
-    
-    // 解码可能被转义的值
-    try {
-      return decodeURIComponent(value);
-    } catch (e) {
-      return value;
     }
-  }
-
-  // 调试辅助函数
-  function debugLog(message, data) {
-    console.log(`%c${message}`, 'background: #4CAF50; color: white; padding: 2px 5px; border-radius: 3px;', data || '');
-  }
-  
-  function debugError(message, error) {
-    console.error(`%c${message}`, 'background: #F44336; color: white; padding: 2px 5px; border-radius: 3px;', error || '');
-  }
-
-  // 解码可能的HTML实体编码
-  function unescapeHtmlEntities(str) {
-    if (typeof str !== 'string') return str;
     
-    const htmlEntities = {
-      '&amp;': '&',
-      '&lt;': '<',
-      '&gt;': '>',
-      '&quot;': '"',
-      '&#39;': "'",
-      '&#x2F;': '/'
-    };
-    
-    return str.replace(/&amp;|&lt;|&gt;|&quot;|&#39;|&#x2F;/g, match => htmlEntities[match]);
-  }
+    // 嘗試初始化畫廊
+    if(typeof Glide !== 'undefined') {
+      setTimeout(initGallery, 100); // 延迟一点执行，确保DOM已更新
+    } else {
+      waitForGlide();
+    }
+  });
 
   // 初始化畫廊函數
   function initGallery() {
@@ -720,7 +786,7 @@ body .article .slide-caption h3::after,
     
     // 添加"全部"按鈕
     const allButton = document.createElement('button');
-    allButton.className = 'char-btn';
+    allButton.className = 'char-btn active'; // 默認設置為激活狀態
     allButton.setAttribute('data-target', 'all');
     allButton.textContent = '全部';
     navContainer.appendChild(allButton);
@@ -730,7 +796,6 @@ body .article .slide-caption h3::after,
       // 創建角色按鈕
       const charButton = document.createElement('button');
       charButton.className = 'char-btn';
-      if (index === 0) charButton.classList.add('active'); // 默認第一個角色為活動狀態
       charButton.setAttribute('data-target', character.id);
       charButton.textContent = character.name;
       navContainer.appendChild(charButton);
@@ -744,39 +809,13 @@ body .article .slide-caption h3::after,
         const imageContainer = document.createElement('div');
         imageContainer.className = 'image-container';
         
-        // 創建用於 lightGallery 的元素
-        const lgLink = document.createElement('a');
-        // 使用 javascript:void(0) 作为链接地址，防止默认跳转
-        lgLink.href = 'javascript:void(0);';
-        // 保存原始图片URL到data属性
-        lgLink.setAttribute('data-lg-size', 'auto');
-        lgLink.setAttribute('data-src', encodeURI(image.src));
-        lgLink.setAttribute('data-original-src', encodeURI(image.src));
-        lgLink.setAttribute('data-sub-html', `<h4>${character.name}</h4><p>${character.description}</p>`);
-        
-        // 添加点击事件处理器，防止跳转
-        lgLink.addEventListener('click', function(e) {
-          try {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // 手动打开 lightGallery
-            if (lightGalleryInstance) {
-              // 需要找到当前项目在所有可见项目中的索引
-              const visibleItems = document.querySelectorAll('.masonry-item.show .image-container a');
-              const currentIndex = Array.from(visibleItems).indexOf(this);
-              console.log(`点击了图片，打开 lightGallery，索引: ${currentIndex}`);
-              lightGalleryInstance.openGallery(currentIndex >= 0 ? currentIndex : 0);
-            } else {
-              console.log('lightGallery 实例不存在，无法打开画廊');
-            }
-            
-            return false;
-          } catch (e) {
-            console.error('点击处理器出错:', e);
-            return false;
-          }
-        });
+        // 創建類似官方示例的 figure 元素
+        const figure = document.createElement('figure');
+        figure.className = 'blog-images';
+        figure.setAttribute('data-src', encodeURI(image.src));
+        figure.setAttribute('data-lg-size', '1400-1000'); // 設置大圖尺寸
+        // 設置背景色（根據明暗模式自動切換）
+        figure.setAttribute('lg-background-color', 'auto');
         
         const img = document.createElement('img');
         img.src = encodeURI(image.src);
@@ -789,17 +828,10 @@ body .article .slide-caption h3::after,
         // 添加備用圖片處理
         if (image.fallback) {
           img.onerror = function() {
-            try {
-              this.onerror = null;
-              const fallbackSrc = unescapeHtmlEntities(encodeURI(image.fallback));
-              console.log(`图片加载失败: ${image.src}，尝试使用备用图片: ${fallbackSrc}`);
-              this.src = fallbackSrc;
-              // 更新data-src属性
-              lgLink.setAttribute('data-src', fallbackSrc);
-              lgLink.setAttribute('data-original-src', fallbackSrc);
-            } catch (e) {
-              console.error('加载备用图片时出错:', e);
-            }
+            this.onerror = null;
+            console.log(`图片加载失败: ${image.src}，尝试使用备用图片: ${image.fallback}`);
+            this.src = encodeURI(image.fallback);
+            figure.setAttribute('data-src', encodeURI(image.fallback));
           };
         } else {
           img.onerror = function() {
@@ -807,36 +839,27 @@ body .article .slide-caption h3::after,
           };
         }
         
-        lgLink.appendChild(img);
+        figure.appendChild(img);
         
-        const imageCaption = document.createElement('div');
-        imageCaption.className = 'image-caption';
-        
-        const title = document.createElement('h3');
-        title.textContent = character.name;
-        
-        const description = document.createElement('p');
-        description.textContent = character.description;
-        
-        const link = document.createElement('a');
-        link.href = character.profileLink;
-        link.className = 'character-link';
-        link.textContent = '查看角色檔案';
-        
-        // 為角色链接添加点击事件处理器，阻止Quartz默认跳转并自己处理
-        link.addEventListener('click', function(e) {
+        // 添加点击事件监听器
+        figure.addEventListener('click', function(e) {
           e.preventDefault();
-          // 使用window.location.href手动跳转，确保使用正确格式的URL
-          window.location.href = character.profileLink;
+          console.log('点击了图片元素:', this);
+          
+          // 手动打开 lightGallery
+          if (lightGalleryInstance) {
+            const visibleItems = document.querySelectorAll('.masonry-item.show figure.blog-images');
+            const currentIndex = Array.from(visibleItems).indexOf(this);
+            console.log(`点击了图片，打开 lightGallery，索引: ${currentIndex}`);
+            lightGalleryInstance.openGallery(currentIndex >= 0 ? currentIndex : 0);
+          } else {
+            console.log('lightGallery 实例不存在，嘗試重新初始化');
+            initLightGallery();
+          }
+          return false;
         });
         
-        imageCaption.appendChild(title);
-        imageCaption.appendChild(description);
-        imageCaption.appendChild(link);
-        
-        imageContainer.appendChild(lgLink);
-        imageContainer.appendChild(imageCaption);
-        
+        imageContainer.appendChild(figure);
         masonryItem.appendChild(imageContainer);
         masonryContainer.appendChild(masonryItem);
       });
@@ -845,7 +868,6 @@ body .article .slide-caption h3::after,
       const sliderDiv = document.createElement('div');
       sliderDiv.id = `${character.id}-slider`;
       sliderDiv.className = 'glide character-slider';
-      if (index === 0) sliderDiv.classList.add('active'); // 默認第一個角色為活動狀態
       
       // 輪播軌道
       const trackDiv = document.createElement('div');
@@ -871,14 +893,9 @@ body .article .slide-caption h3::after,
         // 添加備用圖片處理
         if (image.fallback) {
           img.onerror = function() {
-            try {
-              this.onerror = null;
-              const fallbackSrc = unescapeHtmlEntities(encodeURI(image.fallback));
-              console.log(`图片加载失败: ${image.src}，尝试使用备用图片: ${fallbackSrc}`);
-              this.src = fallbackSrc;
-            } catch (e) {
-              console.error('加载备用图片时出错:', e);
-            }
+            this.onerror = null;
+            console.log(`图片加载失败: ${image.src}，尝试使用备用图片: ${image.fallback}`);
+            this.src = encodeURI(image.fallback);
           };
         } else {
           img.onerror = function() {
@@ -991,139 +1008,81 @@ body .article .slide-caption h3::after,
     
     // 初始化 lightGallery
     function initLightGallery() {
+      // 添加調試信息
+      console.log('開始初始化 lightGallery...');
+      console.log('lightGallery 是否已加載:', typeof lightGallery !== 'undefined');
+      console.log('lgZoom 是否已加載:', typeof window.lgZoom !== 'undefined');
+      console.log('lgMediumZoom 是否已加載:', typeof window.lgMediumZoom !== 'undefined');
+      
       if(typeof lightGallery === 'undefined') {
-        console.error('lightGallery 未加載，無法初始化');
+        console.error('lightGallery 未加載，無法初始化，嘗試手動加載');
+        loadLightGalleryManually();
         return;
       }
       
       // 如果已經存在實例，先銷毀
       if(lightGalleryInstance) {
-        lightGalleryInstance.destroy();
-        lightGalleryInstance = null;
+        try {
+          console.log('銷毀先前的lightGallery實例');
+          lightGalleryInstance.destroy();
+        } catch (e) {
+          console.error('銷毀lightGallery實例時出錯:', e);
+        } finally {
+          lightGalleryInstance = null;
+        }
       }
       
       try {
-        console.log('初始化 lightGallery...');
+        console.log('初始化 lightGallery (MediumZoom模式)...');
         
-        // 只选择那些具有有效src属性的图片链接
-        const visibleItems = document.querySelectorAll('.masonry-item.show');
-        debugLog(`找到 ${visibleItems.length} 个可见项目`);
-        
-        const validImgLinks = [];
-        
-        // 过滤掉无效的图片元素
-        visibleItems.forEach((item, idx) => {
-          try {
-            const link = item.querySelector('.image-container a');
-            if (!link) {
-              debugError(`项目 ${idx} 没有图片链接元素`);
-              return;
-            }
-            
-            const img = link.querySelector('img');
-            if (!img) {
-              debugError(`项目 ${idx} 没有图片元素`);
-              return;
-            }
-            
-            const src = safeGetAttribute(img, 'src');
-            if (safeCheck(src)) {
-              validImgLinks.push(link);
-              debugLog(`添加有效图片 ${idx}:`, src);
-            } else {
-              debugError(`项目 ${idx} 图片源无效:`, src);
-            }
-          } catch (e) {
-            debugError(`处理项目 ${idx} 时出错:`, e);
-          }
-        });
-        
-        if(validImgLinks.length === 0) {
-          console.log('沒有找到有效的可見圖片，無法初始化 lightGallery');
+        // 檢查是否有可見的圖片
+        const imgLinks = document.querySelectorAll('.masonry-item.show figure.blog-images');
+        if(imgLinks.length === 0) {
+          console.log('沒有找到可見的圖片鏈接，無法初始化 lightGallery');
           return;
         }
         
-        console.log(`找到 ${validImgLinks.length} 个有效图片元素进行初始化`);
-        
-        // 然後初始化 lightGallery，只使用有效的图片元素
+        // 參考官方示例的簡潔配置
         lightGalleryInstance = lightGallery(document.getElementById('masonry-gallery'), {
-          selector: '.masonry-item.show .image-container a', // 只選擇可見的項目
+          selector: '.masonry-item.show figure.blog-images',
+          licenseKey: 'GPL3',
+          plugins: [lgMediumZoom],
           speed: 500,
-          backdropDuration: 400,
-          counter: true,
+          allowMediaOverlap: true,
           download: false,
-          plugins: [lgZoom], // 移除缩略图插件，只保留放大功能
-          zoomFromOrigin: true,
-          allowMediaOverlap: false,
-          mode: 'lg-fade',
-          licenseKey: 'GPLv3-personal',  // 添加许可证密钥
-          // Medium-like zoom 設置
-          zoom: {
-            scale: 3, // 最大縮放倍數
-            enableZoomAfter: 300, // 延遲激活縮放功能的時間（毫秒）
-            mousewheel: true, // 啟用鼠標滾輪縮放
-            actualSize: true // 允許查看實際大小
-          },
-          thumbnail: false, // 显式禁用缩略图
-          // 重要：设置数据源解析函数，处理可能被HTML转义的属性
-          getDynamicOptions: function(dynamicIndex, index) {
-            try {
-              const item = validImgLinks[index];
-              if (!item) return { src: '' };
-              
-              // 从data属性获取图片URL，并确保它是有效的
-              const src = safeGetAttribute(item, 'data-original-src') || safeGetAttribute(item, 'data-src');
-              
-              console.log(`获取图片源: ${src} (索引: ${index})`);
-              
-              // 确保解码任何可能的HTML实体
-              return {
-                src: unescapeHtmlEntities(src),
-                thumb: '' // 不使用缩略图
-              };
-            } catch (e) {
-              console.error('处理图片源时出错:', e);
-              return { src: '' };
-            }
-          },
-          mobileSettings: {
-            controls: true,
-            showCloseIcon: true,
-            download: false
-          }
-        });
-        
-        // 为每个有效的图片链接添加点击事件处理器
-        validImgLinks.forEach((link, idx) => {
-          // 移除原有的所有点击事件处理器，确保没有重复
-          const newLink = link.cloneNode(true);
-          link.parentNode.replaceChild(newLink, link);
+          counter: false,
+          closable: true,
+          showMaximizeIcon: false,
+          showZoomInOutIcons: false,
+          slideEndAnimation: false, // 禁用幻灯片结束动画
           
-          // 添加新的点击处理器
-          newLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            console.log(`点击了图片 ${idx}，正在打开 lightGallery`);
-            
-            // 使用当前元素的索引打开lightGallery
-            if(lightGalleryInstance) {
-              lightGalleryInstance.openGallery(idx);
-            } else {
-              console.warn('lightGallery 实例不存在，尝试重新初始化');
-              setTimeout(() => {
-                initLightGallery();
-                if(lightGalleryInstance) {
-                  lightGalleryInstance.openGallery(idx);
-                }
-              }, 100);
-            }
-            
-            return false;
-          });
+          // Medium Zoom 設定 - 移除过渡动画
+          backdropDuration: 0, // 背景淡入淡出时间设为0
+          cssEasing: 'linear', // 使用线性缓动
+          easing: 'linear',
+          mode: 'lg-medium-zoom',
+          preload: 2,
+          
+          // 禁用缩放动画
+          zoomFromOrigin: false, // 禁用从原位置缩放
+          
+          // Medium Zoom 特有设置
+          mediumZoom: {
+            margin: 40,            // 边距
+            background: 'rgba(0, 0, 0, 0.85)', // 设置为半透明黑色背景
+            scrollOffset: 40,      // 滚动偏移
+          },
+          
+          // 禁用不需要的功能
+          controls: false,
+          thumbnail: false,
+          rotate: false,
+          fullScreen: false,
+          slideDelay: 0, // 取消幻灯片切换延迟
+          hideControlOnEnd: true
         });
         
-        console.log('lightGallery 初始化成功，處理了 ' + validImgLinks.length + ' 個有效圖片');
+        console.log('成功初始化 MediumZoom 版 lightGallery（已禁用過渡動畫）');
       } catch (e) {
         console.error('初始化 lightGallery 失敗:', e);
         console.error(e.stack);
@@ -1152,6 +1111,8 @@ body .article .slide-caption h3::after,
 
     // 顯示特定角色的函數
     function showCharacter(targetId) {
+      console.log(`嘗試顯示: ${targetId}`);
+      
       // 更新按鈕狀態
       document.querySelectorAll('.char-btn').forEach(btn => {
         if (btn.getAttribute('data-target') === targetId) {
@@ -1169,6 +1130,8 @@ body .article .slide-caption h3::after,
         // 顯示瀑布流
         const masonryContainer = document.getElementById('masonry-gallery');
         masonryContainer.classList.add('active');
+        masonryContainer.style.display = 'block'; // 確保顯示
+        
         // 添加全部模式類名，用於隱藏圖片說明
         masonryContainer.classList.add('all-mode');
         
@@ -1178,6 +1141,7 @@ body .article .slide-caption h3::after,
         // 先隱藏所有項目
         document.querySelectorAll('.masonry-item').forEach(item => {
           item.classList.remove('show');
+          item.style.display = 'none'; // 確保隱藏
         });
         
         // 然後有選擇地顯示項目，避免重複圖片
@@ -1188,6 +1152,7 @@ body .article .slide-caption h3::after,
           // 如果該圖片路徑尚未顯示，則顯示此項目
           if (!shownImagePaths.has(imagePath)) {
             item.classList.add('show');
+            item.style.display = 'block'; // 確保顯示
             shownImagePaths.add(imagePath);
           }
         });
@@ -1201,6 +1166,7 @@ body .article .slide-caption h3::after,
       // 如果不是"全部"模式，隱藏瀑布流，顯示輪播
       const masonryContainer = document.getElementById('masonry-gallery');
       masonryContainer.classList.remove('active');
+      masonryContainer.style.display = 'none'; // 確保隱藏瀑布流
       // 移除全部模式類名
       masonryContainer.classList.remove('all-mode');
       document.querySelector('.character-slides').style.display = 'block';
@@ -1226,10 +1192,17 @@ body .article .slide-caption h3::after,
       document.querySelectorAll('.masonry-item').forEach(item => {
         if (item.getAttribute('data-character') === targetId) {
           item.classList.add('show');
+          item.style.display = 'block'; // 設置但仍然不會顯示因為容器被隱藏
         } else {
           item.classList.remove('show');
+          item.style.display = 'none';
         }
       });
+      
+      // 如果是特定角色模式，初始化它們的輪播圖而不是lightGallery
+      if (sliders[`${targetId}-slider`]) {
+        setTimeout(() => sliders[`${targetId}-slider`].update(), 100);
+      }
     }
 
     // 處理按鈕點擊
@@ -1265,9 +1238,15 @@ body .article .slide-caption h3::after,
     // 初始加載時檢查錨點
     handleHash();
     
-    // 默認顯示第一個角色
+    // 默認顯示第一個角色，如果沒有指定錨點則顯示"全部"視圖
     if (!window.location.hash) {
-      showCharacter(characterGalleryData[0].id);
+      showCharacter('all');
+      // 確保"全部"按鈕處於激活狀態
+      document.querySelector('.char-btn[data-target="all"]').classList.add('active');
+      // 移除其他按鈕的激活狀態
+      document.querySelectorAll('.char-btn:not([data-target="all"])').forEach(btn => {
+        btn.classList.remove('active');
+      });
     }
   }
 
@@ -1292,135 +1271,153 @@ body .article .slide-caption h3::after,
     document.head.appendChild(glideScript);
   }
 
+  // 使用DOMContentLoaded事件
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM加載完成，嘗試初始化畫廊');
+    if(typeof Glide !== 'undefined') {
+      initGallery();
+      
+      // 確保已加載完成後，根據當前激活的按鈕顯示對應內容
+      setTimeout(function() {
+        const activeBtn = document.querySelector('.char-btn.active');
+        if(activeBtn) {
+          const targetId = activeBtn.getAttribute('data-target');
+          console.log('DOM載入完成後：根據激活按鈕顯示內容:', targetId);
+          showCharacter(targetId);
+        } else {
+          // 如果沒有激活按鈕，默認顯示全部
+          console.log('DOM載入完成後：沒有激活按鈕，默認顯示全部');
+          showCharacter('all');
+        }
+      }, 300);
+    } else {
+      waitForGlide();
+    }
+    
+    // 等待 lightGallery 加載
+    waitForLightGallery();
+  });
+
   // 等待 lightGallery 加載
   function waitForLightGallery() {
-    // 最多等待10秒
-    const maxAttempts = 50; // 每200ms检查一次，最多10秒
-    let attempts = 0;
-    
-    function check() {
-      if(typeof lightGallery !== 'undefined') {
-        console.log('lightGallery 已加載，可以使用');
-        return true;
-      } 
+    if(typeof lightGallery !== 'undefined') {
+      console.log('lightGallery 已加載，可以使用');
+      return true;
+    } else {
+      console.log('等待 lightGallery 加載...');
+      // 限制嘗試次數，避免無限循環
+      if(!window.lgLoadAttempts) window.lgLoadAttempts = 0;
+      window.lgLoadAttempts++;
       
-      attempts++;
-      if(attempts >= maxAttempts) {
-        console.warn('lightGallery 加载超时，尝试手动初始化');
+      if(window.lgLoadAttempts > 10) {
+        console.warn('lightGallery 加載超時，嘗試手動加載');
+        // 手動加載 lightGallery
         loadLightGalleryManually();
         return false;
       }
       
-      console.log(`等待 lightGallery 加載...（${attempts}/${maxAttempts}）`);
-      setTimeout(check, 200);
+      setTimeout(waitForLightGallery, 200);
       return false;
     }
-    
-    return check();
   }
   
-  // 手动加载lightGallery
+  // 手動加載 lightGallery
   function loadLightGalleryManually() {
-    if(typeof lightGallery !== 'undefined') {
-      console.log('lightGallery 已存在，无需手动加载');
-      return;
-    }
+    if(typeof lightGallery !== 'undefined') return;
     
-    console.warn('手动加载lightGallery');
+    console.log('手動加載 lightGallery...');
     
-    // 确保CSS已加载
-    const existingCss = document.querySelector('link[href*="lightgallery.css"]');
-    if(!existingCss) {
-      const lgCss = document.createElement('link');
-      lgCss.rel = 'stylesheet';
-      lgCss.href = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery.css';
-      document.head.appendChild(lgCss);
+    // 加載 CSS
+    const coreCss = document.createElement('link');
+    coreCss.rel = 'stylesheet';
+    coreCss.href = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery.min.css';
+    document.head.appendChild(coreCss);
+    
+    const zoomCss = document.createElement('link');
+    zoomCss.rel = 'stylesheet';
+    zoomCss.href = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-medium-zoom.min.css';
+    document.head.appendChild(zoomCss);
+    
+    // 加載核心 JS
+    const coreScript = document.createElement('script');
+    coreScript.src = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js';
+    coreScript.onload = function() {
+      console.log('lightGallery 核心已加載');
       
-      const lgZoomCss = document.createElement('link');
-      lgZoomCss.rel = 'stylesheet';
-      lgZoomCss.href = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-zoom.css';
-      document.head.appendChild(lgZoomCss);
-    }
-    
-    // 加载主脚本和插件
-    const lgScript = document.createElement('script');
-    lgScript.src = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js';
-    lgScript.onload = function() {
-      console.log('lightGallery 主脚本加载成功');
-      
-      const zoomScript = document.createElement('script');
-      zoomScript.src = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js';
-      zoomScript.onload = function() {
-        console.log('lightGallery zoom插件加载成功');
-        if(!characterGalleryInitialized) {
-          setTimeout(initGallery, 100);
-        } else {
-          // 如果画廊已初始化但lightGallery实例不存在，重新初始化lightGallery
-          setTimeout(initLightGallery, 100);
-        }
+      // 加載 MediumZoom 插件
+      const mediumZoomScript = document.createElement('script');
+      mediumZoomScript.src = 'https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/mediumZoom/lg-medium-zoom.min.js';
+      mediumZoomScript.onload = function() {
+        console.log('MediumZoom 插件已加載');
+        
+        // 加載完成後嘗試初始化
+        setTimeout(function() {
+          console.log('嘗試初始化 lightGallery');
+          initLightGallery();
+        }, 500);
       };
-      document.head.appendChild(zoomScript);
+      document.head.appendChild(mediumZoomScript);
     };
-    document.head.appendChild(lgScript);
+    document.head.appendChild(coreScript);
   }
-  
-  // 使用防抖函数避免短时间内多次初始化
-  function debounce(func, wait) {
-    let timeout;
-    return function(...args) {
-      const context = this;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(context, args), wait);
-    };
-  }
-  
-  // 包装初始化函数以防止重复调用
-  const debouncedInit = debounce(function() {
-    if(!characterGalleryInitialized) {
-      console.log('延迟初始化画廊');
-      initGallery();
-    }
-  }, 100);
-  
-  // 使用DOMContentLoaded事件
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM加載完成，嘗試初始化畫廊');
-    
-    try {
-      if(typeof Glide !== 'undefined') {
-        debouncedInit();
-      } else {
-        waitForGlide();
-      }
-      
-      // 等待 lightGallery 加載
-      waitForLightGallery();
-    } catch(e) {
-      console.error('DOMContentLoaded处理器出错:', e);
-    }
-  });
   
   // 使用window.onload作為備份
   window.addEventListener('load', function() {
     console.log('頁面完全加載，檢查畫廊初始化狀態');
     
-    try {
-      if(!characterGalleryInitialized) {
-        console.log('畫廊尚未初始化，嘗試加載Glide.js');
-        loadGlideScript();
+    // 檢查 Glide.js
+    if(!characterGalleryInitialized) {
+      console.log('畫廊尚未初始化，嘗試加載Glide.js');
+      loadGlideScript();
+    }
+    
+    // 確保根據當前激活的按鈕顯示對應內容
+    setTimeout(function() {
+      const activeBtn = document.querySelector('.char-btn.active');
+      if(activeBtn) {
+        const targetId = activeBtn.getAttribute('data-target');
+        console.log('頁面加載完成：根據激活按鈕顯示內容:', targetId);
+        showCharacter(targetId);
+      } else {
+        // 如果沒有激活按鈕，默認顯示全部
+        console.log('頁面加載完成：沒有激活按鈕，默認顯示全部');
+        showCharacter('all');
       }
-      
-      // 確保lightGallery已加載
-      if(typeof lightGallery === 'undefined') {
-        loadLightGalleryManually();
-      } else if(characterGalleryInitialized && !lightGalleryInstance) {
-        // 如果画廊已初始化但lightGallery实例不存在
-        console.log('画廊已初始化但lightGallery实例不存在，初始化lightGallery');
-        initLightGallery();
-      }
-    } catch(e) {
-      console.error('window.onload处理器出错:', e);
+    }, 500);
+    
+    // 檢查 lightGallery
+    if(typeof lightGallery === 'undefined') {
+      console.warn('頁面加載完成但lightGallery未加載，嘗試手動初始化');
+      loadLightGalleryManually();
     }
   });
+
+  // 立即自動執行初始化
+  if(document.readyState === 'complete' || document.readyState === 'interactive') {
+    console.log('文檔已準備就緒，立即初始化');
+    setTimeout(function() {
+      if(!characterGalleryInitialized) {
+        if(typeof Glide !== 'undefined') {
+          initGallery();
+          
+          // 根據當前激活的按鈕顯示對應內容
+          setTimeout(function() {
+            const activeBtn = document.querySelector('.char-btn.active');
+            if(activeBtn) {
+              const targetId = activeBtn.getAttribute('data-target');
+              console.log('立即根據激活按鈕顯示內容:', targetId);
+              showCharacter(targetId);
+            } else {
+              // 如果沒有激活按鈕，默認顯示全部
+              console.log('立即顯示全部（無激活按鈕）');
+              showCharacter('all');
+            }
+          }, 100);
+        } else {
+          waitForGlide();
+        }
+      }
+    }, 100);
+  }
 })();
 </script>
