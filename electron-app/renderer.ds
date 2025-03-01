@@ -1,0 +1,28 @@
+const fs = require('fs');
+const path = require('path');
+
+document.getElementById('fileInput').addEventListener('change', (event) => {
+  const files = event.target.files;
+  const fileList = document.getElementById('fileList');
+  fileList.innerHTML = '';
+
+  Array.from(files).forEach(file => {
+    const filePath = path.join(__dirname, 'uploads', file.name);
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      fs.writeFile(filePath, Buffer.from(new Uint8Array(this.result)), (err) => {
+        if (err) {
+          console.error('File save failed:', err);
+        } else {
+          console.log('File saved:', filePath);
+          const listItem = document.createElement('div');
+          listItem.textContent = `Saved: ${file.name}`;
+          fileList.appendChild(listItem);
+        }
+      });
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+});

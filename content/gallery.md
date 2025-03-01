@@ -5,139 +5,21 @@ title: 角色畫廊
 <!-- 引入 Glide.js -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide" defer></script>
 
 <!-- 角色快速跳轉 -->
-<div class="character-nav">
-  <button class="char-btn active" data-target="hcz">黑村 紫</button>
-  <button class="char-btn" data-target="azmt">東山 旅</button>
-  <button class="char-btn" data-target="stn">赤井 刹那</button>
-  <!-- 可以繼續添加更多角色按鈕 -->
+<div class="character-nav" id="character-nav">
+  <!-- 按钮将由脚本动态生成 -->
+</div>
+
+<!-- 瀑布流畫廊 -->
+<div id="masonry-gallery" class="masonry-container">
+  <!-- 图片项将由脚本动态生成 -->
 </div>
 
 <!-- 每個角色的輪播圖 -->
-<div class="character-slides">
-  <!-- 黑村紫的輪播 -->
-  <div id="hcz-slider" class="glide character-slider active">
-    <div class="glide__track" data-glide-el="track">
-      <ul class="glide__slides">
-        <!-- 第一張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/avatar/tachie/hcz-tachie.PNG" alt="黑村紫立繪" />
-          </div>
-        </li>
-        <!-- 第二張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/HCZ.png" alt="QQ人" />
-          </div>
-        </li>
-        <!-- 第三張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/IMG_6340.JPG" alt="QQ人" />
-          </div>
-        </li>
-      </ul>
-      <!-- 添加導航點 -->
-      <div class="glide__bullets" data-glide-el="controls[nav]">
-        <button class="glide__bullet" data-glide-dir="=0"></button>
-        <button class="glide__bullet" data-glide-dir="=1"></button>
-        <button class="glide__bullet" data-glide-dir="=2"></button>
-      </div>
-      <!-- 添加左右箭頭 -->
-      <div class="glide__arrows" data-glide-el="controls">
-        <button class="glide__arrow glide__arrow--left" data-glide-dir="<">←</button>
-        <button class="glide__arrow glide__arrow--right" data-glide-dir=">">→</button>
-      </div>
-    </div>
-    <!-- 將說明文字移到輪播外部 -->
-    <div class="slide-caption">
-      <h3>黑村 紫</h3>
-      <p>大學生(計算機科學)/ 構成創始人</p>
-      <a href="人物設定(DB)/黑村 紫" class="character-link">查看角色檔案</a>
-    </div>
-  </div>
-
-  <!-- 東山旅的輪播 -->
-  <div id="azmt-slider" class="glide character-slider">
-    <div class="glide__track" data-glide-el="track">
-      <ul class="glide__slides">
-        <!-- 第一張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/avatar/tachie/dsl-tachie.PNG" alt="東山旅立繪" onerror="this.onerror=null; this.src='_Attach/Image/avatar/tachie/dsl-tachie.png';" />
-          </div>
-        </li>
-        <!-- 第二張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/IMG_6340.JPG" alt="東山旅其他立繪" onerror="this.onerror=null; this.src='_Attach/Image/IMG_6340.jpg';" />
-          </div>
-        </li>
-        <!-- 第三張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/DSL.png" alt="東山旅其他立繪" onerror="this.onerror=null; this.src='_Attach/Image/DSL.PNG';" />
-          </div>
-        </li>
-      </ul>
-      <!-- 添加導航點（修正數量） -->
-      <div class="glide__bullets" data-glide-el="controls[nav]">
-        <button class="glide__bullet" data-glide-dir="=0"></button>
-        <button class="glide__bullet" data-glide-dir="=1"></button>
-        <button class="glide__bullet" data-glide-dir="=2"></button>
-      </div>
-      <!-- 添加左右箭頭 -->
-      <div class="glide__arrows" data-glide-el="controls">
-        <button class="glide__arrow glide__arrow--left" data-glide-dir="<">←</button>
-        <button class="glide__arrow glide__arrow--right" data-glide-dir=">">→</button>
-      </div>
-    </div>
-    <!-- 將說明文字移到輪播外部 -->
-    <div class="slide-caption">
-      <h3>東山 旅</h3>
-      <p>大學生/人類社會的高效低功耗垃圾回收站</p>
-      <a href="人物設定(DB)/東山 旅" class="character-link">查看角色檔案</a>
-    </div>
-  </div>
-
-  <!-- 赤井刹那的輪播 -->
-  <div id="stn-slider" class="glide character-slider">
-    <div class="glide__track" data-glide-el="track">
-      <ul class="glide__slides">
-        <!-- 第一張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/avatar/tachie/stn-tachie.PNG" alt="赤井刹那立繪" onerror="this.onerror=null; this.src='_Attach/Image/avatar/tachie/stn-tachie.png';" />
-          </div>
-        </li>
-        <!-- 第二張圖片 -->
-        <li class="glide__slide">
-          <div class="image-container">
-            <img src="_Attach/Image/Pasted image 20240317143211.png" alt="赤井刹那其他圖片" />
-          </div>
-        </li>
-      </ul>
-      <!-- 添加導航點 -->
-      <div class="glide__bullets" data-glide-el="controls[nav]">
-        <button class="glide__bullet" data-glide-dir="=0"></button>
-        <button class="glide__bullet" data-glide-dir="=1"></button>
-      </div>
-      <!-- 添加左右箭頭 -->
-      <div class="glide__arrows" data-glide-el="controls">
-        <button class="glide__arrow glide__arrow--left" data-glide-dir="<">←</button>
-        <button class="glide__arrow glide__arrow--right" data-glide-dir=">">→</button>
-      </div>
-    </div>
-    <!-- 將說明文字移到輪播外部 -->
-    <div class="slide-caption">
-      <h3>赤井 刹那</h3>
-      <p>仿生人</p>
-      <a href="人物設定(DB)/赤井 刹那" class="character-link">查看角色檔案</a>
-    </div>
-  </div>
+<div class="character-slides" id="character-slides">
+  <!-- 轮播将由脚本动态生成 -->
 </div>
 
 <style>
@@ -176,6 +58,8 @@ title: 角色畫廊
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .glide__slide img {
@@ -486,32 +370,390 @@ body .article .slide-caption h3::after,
   z-index: -9999 !important;
   content: "" !important;
 }
+
+/* 瀑布流畫廊樣式 */
+.masonry-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto;
+  column-count: 3;
+  column-gap: 20px;
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .masonry-container {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .masonry-container {
+    column-count: 1;
+  }
+}
+
+.masonry-container.active {
+  display: block;
+}
+
+/* 當瀑布流處於全部模式時，隱藏圖片說明 */
+.masonry-container.all-mode .image-caption {
+  display: none;
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  display: none;
+}
+
+.masonry-item.show {
+  display: block;
+}
+
+.masonry-item .image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: block;
+  width: 100%;
+}
+
+.masonry-item .image-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.masonry-item img {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+}
+
+.masonry-item .image-caption {
+  padding: 15px;
+  background-color: var(--light);
+  border-radius: 0 0 8px 8px;
+  text-align: center;
+}
+
+/* 適應暗色模式 */
+@media (prefers-color-scheme: dark) {
+  .masonry-item .image-caption {
+    background-color: var(--dark);
+  }
+}
+
+.masonry-item .image-caption h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.2em;
+}
+
+.masonry-item .image-caption p {
+  margin: 8px 0;
+  font-size: 0.9em;
+  color: var(--gray);
+}
 </style>
 
 <script>
+// 定義角色數據 - 只需要編輯這個數組來添加新角色
+const characterData = [
+  {
+    id: 'hcz',
+    name: '黑村 紫',
+    description: '大學生(計算機科學)/ 構成創始人',
+    profileLink: '人物設定(DB)/黑村 紫',
+    images: [
+      {
+        src: '_Attach/Image/avatar/tachie/hcz-tachie.PNG',
+        alt: '黑村紫立繪',
+        fallback: null // 無備用圖像
+      },
+      {
+        src: '_Attach/Image/HCZ.png',
+        alt: '黑村紫',
+        fallback: null
+      },
+      {
+        src: '_Attach/Image/IMG_6340.JPG',
+        alt: '黑村紫',
+        fallback: null
+      }
+    ]
+  },
+  {
+    id: 'azmt',
+    name: '東山 旅',
+    description: '大學生/人類社會的高效低功耗垃圾回收站',
+    profileLink: '人物設定(DB)/東山 旅',
+    images: [
+      {
+        src: '_Attach/Image/avatar/tachie/dsl-tachie.PNG',
+        alt: '東山旅立繪',
+        fallback: '_Attach/Image/avatar/tachie/dsl-tachie.png'
+      },
+      {
+        src: '_Attach/Image/IMG_6340.JPG',
+        alt: '東山旅其他立繪',
+        fallback: '_Attach/Image/IMG_6340.jpg'
+      },
+      {
+        src: '_Attach/Image/DSL.png',
+        alt: '東山旅其他立繪',
+        fallback: '_Attach/Image/DSL.PNG'
+      }
+    ]
+  },
+  {
+    id: 'stn',
+    name: '赤井 刹那',
+    description: '仿生人',
+    profileLink: '人物設定(DB)/赤井 刹那',
+    images: [
+      {
+        src: '_Attach/Image/stn2.png',
+        alt: '赤井刹那其他圖片',
+        fallback: null // 移除相同的备用路径，使用null更合适
+      }
+    ]
+  },
+  {
+    id: 'kln',
+    name: 'Klein Klein',
+    description: '研究員',
+    profileLink: '人物設定(DB)/Klein Klein',
+    images: [
+      {
+        src: '_Attach/Image/avatar/tachie/kln-tachie.PNG',
+        alt: 'Klein立繪',
+        fallback: '_Attach/Image/avatar/tachie/kln-tachie.png'
+      },
+      ]
+  }
+  // 添加新角色只需在此處添加新的對象
+  // 例如:
+  // {
+  //   id: 'new-character-id',
+  //   name: '新角色名稱',
+  //   description: '角色描述',
+  //   profileLink: '角色檔案鏈接',
+  //   images: [
+  //     {
+  //       src: '圖片路徑',
+  //       alt: '圖片描述',
+  //       fallback: '備用圖片路徑（如果有）或null'
+  //     },
+  //     // 更多圖片...
+  //   ]
+  // }
+];
+
 // 確保腳本只會執行一次的標記
-if (typeof window.characterGalleryInitialized === 'undefined') {
-  window.characterGalleryInitialized = false;
-}
+let characterGalleryInitialized = false;
 
-// 初始化函數
-function initCharacterGallery() {
-  // 避免重複初始化
-  if (window.characterGalleryInitialized) return;
-  window.characterGalleryInitialized = true;
-
-  // 檢查 Glide.js 是否已加載
-  if (typeof Glide === 'undefined') {
-    console.error('Glide.js 未加載，嘗試重新加載...');
-    // 嘗試重新加載 Glide.js
-    const glideScript = document.createElement('script');
-    glideScript.src = 'https://cdn.jsdelivr.net/npm/@glidejs/glide';
-    glideScript.onload = initCharacterGallery;
-    document.head.appendChild(glideScript);
+// 初始化畫廊函數
+function initGallery() {
+  if(characterGalleryInitialized) return;
+  characterGalleryInitialized = true;
+  
+  console.log('初始化角色畫廊...');
+  
+  const charactersContainer = document.getElementById('character-slides');
+  const masonryContainer = document.getElementById('masonry-gallery');
+  const navContainer = document.getElementById('character-nav');
+  
+  // 清空容器
+  if(!charactersContainer || !masonryContainer || !navContainer) {
+    console.error('無法找到畫廊容器元素');
     return;
   }
-
-  console.log('初始化角色畫廊...');
+  
+  charactersContainer.innerHTML = '';
+  masonryContainer.innerHTML = '';
+  navContainer.innerHTML = '';
+  
+  // 添加"全部"按鈕
+  const allButton = document.createElement('button');
+  allButton.className = 'char-btn';
+  allButton.setAttribute('data-target', 'all');
+  allButton.textContent = '全部';
+  navContainer.appendChild(allButton);
+  
+  // 創建角色按鈕和滑塊
+  characterData.forEach((character, index) => {
+    // 創建角色按鈕
+    const charButton = document.createElement('button');
+    charButton.className = 'char-btn';
+    if (index === 0) charButton.classList.add('active'); // 默認第一個角色為活動狀態
+    charButton.setAttribute('data-target', character.id);
+    charButton.textContent = character.name;
+    navContainer.appendChild(charButton);
+    
+    // 創建瀑布流項目
+    character.images.forEach(image => {
+      const masonryItem = document.createElement('div');
+      masonryItem.className = 'masonry-item';
+      masonryItem.setAttribute('data-character', character.id);
+      
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'image-container';
+      
+      const img = document.createElement('img');
+      img.src = encodeURI(image.src);
+      img.alt = image.alt;
+      img.setAttribute('data-image-path', image.src);
+      
+      // 添加備用圖片處理
+      if (image.fallback) {
+        img.onerror = function() {
+          this.onerror = null;
+          console.log(`图片加载失败: ${image.src}，尝试使用备用图片: ${image.fallback}`);
+          this.src = encodeURI(image.fallback);
+        };
+      } else {
+        img.onerror = function() {
+          console.error(`图片加载失败，无备用图片: ${image.src}`);
+          // 可选：设置默认占位图片
+          // this.src = '默认占位图片路径';
+        };
+      }
+      
+      const imageCaption = document.createElement('div');
+      imageCaption.className = 'image-caption';
+      
+      const title = document.createElement('h3');
+      title.textContent = character.name;
+      
+      const description = document.createElement('p');
+      description.textContent = character.description;
+      
+      const link = document.createElement('a');
+      link.href = character.profileLink;
+      link.className = 'character-link';
+      link.textContent = '查看角色檔案';
+      
+      imageCaption.appendChild(title);
+      imageCaption.appendChild(description);
+      imageCaption.appendChild(link);
+      
+      imageContainer.appendChild(img);
+      imageContainer.appendChild(imageCaption);
+      
+      masonryItem.appendChild(imageContainer);
+      masonryContainer.appendChild(masonryItem);
+    });
+    
+    // 創建輪播圖
+    const sliderDiv = document.createElement('div');
+    sliderDiv.id = `${character.id}-slider`;
+    sliderDiv.className = 'glide character-slider';
+    if (index === 0) sliderDiv.classList.add('active'); // 默認第一個角色為活動狀態
+    
+    // 輪播軌道
+    const trackDiv = document.createElement('div');
+    trackDiv.className = 'glide__track';
+    trackDiv.setAttribute('data-glide-el', 'track');
+    
+    // 輪播幻燈片
+    const slidesList = document.createElement('ul');
+    slidesList.className = 'glide__slides';
+    
+    // 創建幻燈片
+    character.images.forEach(image => {
+      const slide = document.createElement('li');
+      slide.className = 'glide__slide';
+      
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'image-container';
+      
+      const img = document.createElement('img');
+      img.src = encodeURI(image.src);
+      img.alt = image.alt;
+      
+      // 添加備用圖片處理
+      if (image.fallback) {
+        img.onerror = function() {
+          this.onerror = null;
+          console.log(`图片加载失败: ${image.src}，尝试使用备用图片: ${image.fallback}`);
+          this.src = encodeURI(image.fallback);
+        };
+      } else {
+        img.onerror = function() {
+          console.error(`图片加载失败，无备用图片: ${image.src}`);
+          // 可选：设置默认占位图片
+          // this.src = '默认占位图片路径';
+        };
+      }
+      
+      imageContainer.appendChild(img);
+      slide.appendChild(imageContainer);
+      slidesList.appendChild(slide);
+    });
+    
+    // 創建輪播點
+    const bulletsDiv = document.createElement('div');
+    bulletsDiv.className = 'glide__bullets';
+    bulletsDiv.setAttribute('data-glide-el', 'controls[nav]');
+    
+    character.images.forEach((_, imageIndex) => {
+      const bullet = document.createElement('button');
+      bullet.className = 'glide__bullet';
+      bullet.setAttribute('data-glide-dir', `=${imageIndex}`);
+      bulletsDiv.appendChild(bullet);
+    });
+    
+    // 創建輪播箭頭
+    const arrowsDiv = document.createElement('div');
+    arrowsDiv.className = 'glide__arrows';
+    arrowsDiv.setAttribute('data-glide-el', 'controls');
+    
+    const leftArrow = document.createElement('button');
+    leftArrow.className = 'glide__arrow glide__arrow--left';
+    leftArrow.setAttribute('data-glide-dir', '<');
+    leftArrow.textContent = '←';
+    
+    const rightArrow = document.createElement('button');
+    rightArrow.className = 'glide__arrow glide__arrow--right';
+    rightArrow.setAttribute('data-glide-dir', '>');
+    rightArrow.textContent = '→';
+    
+    arrowsDiv.appendChild(leftArrow);
+    arrowsDiv.appendChild(rightArrow);
+    
+    // 將軌道和控制元素添加到輪播
+    trackDiv.appendChild(slidesList);
+    trackDiv.appendChild(bulletsDiv);
+    trackDiv.appendChild(arrowsDiv);
+    sliderDiv.appendChild(trackDiv);
+    
+    // 創建說明文字
+    const captionDiv = document.createElement('div');
+    captionDiv.className = 'slide-caption';
+    
+    const captionTitle = document.createElement('h3');
+    captionTitle.textContent = character.name;
+    
+    const captionDesc = document.createElement('p');
+    captionDesc.textContent = character.description;
+    
+    const captionLink = document.createElement('a');
+    captionLink.href = character.profileLink;
+    captionLink.className = 'character-link';
+    captionLink.textContent = '查看角色檔案';
+    
+    captionDiv.appendChild(captionTitle);
+    captionDiv.appendChild(captionDesc);
+    captionDiv.appendChild(captionLink);
+    
+    sliderDiv.appendChild(captionDiv);
+    
+    // 將輪播添加到容器
+    charactersContainer.appendChild(sliderDiv);
+  });
   
   // 初始化所有輪播
   const sliders = {};
@@ -553,7 +795,7 @@ function initCharacterGallery() {
     window.resizeTimer = setTimeout(function() {
       // 獲取當前活動的角色ID
       const activeSlider = document.querySelector('.character-slider.active');
-      const activeId = activeSlider ? activeSlider.id.replace('-slider', '') : 'hcz';
+      const activeId = activeSlider ? activeSlider.id.replace('-slider', '') : characterData[0].id;
       
       // 重新初始化所有輪播
       initSliders();
@@ -574,6 +816,47 @@ function initCharacterGallery() {
       }
     });
 
+    // 如果是"全部"模式
+    if (targetId === 'all') {
+      // 隱藏輪播視圖
+      document.querySelector('.character-slides').style.display = 'none';
+      
+      // 顯示瀑布流
+      const masonryContainer = document.getElementById('masonry-gallery');
+      masonryContainer.classList.add('active');
+      // 添加全部模式類名，用於隱藏圖片說明
+      masonryContainer.classList.add('all-mode');
+      
+      // 處理重複圖片 - 創建一個集合來跟踪已顯示的圖片路徑
+      const shownImagePaths = new Set();
+      
+      // 先隱藏所有項目
+      document.querySelectorAll('.masonry-item').forEach(item => {
+        item.classList.remove('show');
+      });
+      
+      // 然後有選擇地顯示項目，避免重複圖片
+      document.querySelectorAll('.masonry-item').forEach(item => {
+        const img = item.querySelector('img');
+        const imagePath = img.getAttribute('data-image-path');
+        
+        // 如果該圖片路徑尚未顯示，則顯示此項目
+        if (!shownImagePaths.has(imagePath)) {
+          item.classList.add('show');
+          shownImagePaths.add(imagePath);
+        }
+      });
+      
+      return;
+    }
+    
+    // 如果不是"全部"模式，隱藏瀑布流，顯示輪播
+    const masonryContainer = document.getElementById('masonry-gallery');
+    masonryContainer.classList.remove('active');
+    // 移除全部模式類名
+    masonryContainer.classList.remove('all-mode');
+    document.querySelector('.character-slides').style.display = 'block';
+
     // 切換輪播顯示
     document.querySelectorAll('.character-slider').forEach(slider => {
       if (slider.id === `${targetId}-slider`) {
@@ -588,6 +871,15 @@ function initCharacterGallery() {
         }
       } else {
         slider.classList.remove('active');
+      }
+    });
+    
+    // 在瀑布流中僅顯示當前角色的項目（雖然瀑布流已被隱藏）
+    document.querySelectorAll('.masonry-item').forEach(item => {
+      if (item.getAttribute('data-character') === targetId) {
+        item.classList.add('show');
+      } else {
+        item.classList.remove('show');
       }
     });
   }
@@ -624,22 +916,50 @@ function initCharacterGallery() {
   
   // 初始加載時檢查錨點
   handleHash();
+  
+  // 默認顯示第一個角色
+  if (!window.location.hash) {
+    showCharacter(characterData[0].id);
+  }
 }
 
-// 使用多種方法確保腳本能夠正確執行
-document.addEventListener('DOMContentLoaded', function() {
-  // 如果 Glide.js 已加載，立即初始化
+// 等待Glide.js加載
+function waitForGlide() {
   if (typeof Glide !== 'undefined') {
-    initCharacterGallery();
+    console.log('Glide.js 已加載，初始化畫廊');
+    initGallery();
   } else {
-    // 否則等待一小段時間再嘗試
-    setTimeout(initCharacterGallery, 200);
+    console.log('等待Glide.js加載...');
+    setTimeout(waitForGlide, 200);
+  }
+}
+
+// 加載Glide.js腳本
+function loadGlideScript() {
+  console.log('手動加載Glide.js');
+  const glideScript = document.createElement('script');
+  glideScript.src = 'https://cdn.jsdelivr.net/npm/@glidejs/glide';
+  glideScript.onload = initGallery;
+  glideScript.onerror = () => console.error('Glide.js加載失敗');
+  document.head.appendChild(glideScript);
+}
+
+// 使用DOMContentLoaded事件
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM加載完成，嘗試初始化畫廊');
+  if(typeof Glide !== 'undefined') {
+    initGallery();
+  } else {
+    waitForGlide();
   }
 });
 
-// 備份方案：頁面加載完成後再次嘗試初始化
-window.addEventListener('load', initCharacterGallery);
-
-// 最後的防禦線：如果一切都失敗了，在 2 秒後再次嘗試
-setTimeout(initCharacterGallery, 2000);
+// 使用window.onload作為備份
+window.addEventListener('load', function() {
+  console.log('頁面完全加載，檢查畫廊初始化狀態');
+  if(!characterGalleryInitialized) {
+    console.log('畫廊尚未初始化，嘗試加載Glide.js');
+    loadGlideScript();
+  }
+});
 </script> 
