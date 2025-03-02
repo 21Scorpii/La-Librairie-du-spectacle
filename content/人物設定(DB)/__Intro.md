@@ -9,7 +9,7 @@ Gender:
 sticker: lucide//align-start-vertical
 Weight: 60
 Height: "180"
-avatar: "[[Pasted image 20240317105120.png]]"
+avatar: "[[Pasted image 20240317105120.webp]]"
 正面感情觸發物: ""
 category: Chara
 ---

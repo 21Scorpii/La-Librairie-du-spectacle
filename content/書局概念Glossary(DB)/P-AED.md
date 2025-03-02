@@ -1,12 +1,12 @@
 ---
 aliases:
   - Portable Automated External Defibrillator
-avatar: "![[Pasted image 20250224190954.png]]"
+avatar: "![[Pasted image 20250224190954.webp]]"
 ---
 # 靈感 設計參考圖
 - 設計參考NAIL GUN(釘槍)
-- ![[Pasted image 20250224190954.png|229]]
-- ![[Pasted image 20250224191028.png|204]]
+- ![[Pasted image 20250224190954.webp|229]]
+- ![[Pasted image 20250224191028.webp|204]]
 - 【急救模式】相當於攜帶式AED 不需要貼電極 會自動識別皮膚進行5-15秒的分析流程之後除顫
 - 【備用模式】一鍵式心肺復甦 可能會有較高概率按碎肋骨 但是能節約搶救的黃金時間
 # Background

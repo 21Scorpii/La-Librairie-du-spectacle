@@ -15,9 +15,14 @@ title: 角色畫廊
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/mediumZoom/lg-medium-zoom.min.js" defer></script>
 
-<!-- 角色快速跳轉 -->
-<div class="character-nav" id="character-nav">
-  <!-- 按钮将由脚本动态生成 -->
+<!-- 角色快速跳轉 - 改為折疊式設計 -->
+<div class="character-nav-container" id="character-nav-container">
+  <div class="character-nav-main" id="character-nav-main">
+    <!-- "全部"按鈕和"篩選角色"按鈕會在這裡由腳本生成 -->
+  </div>
+  <div class="character-dropdown" id="character-dropdown">
+    <!-- 角色按鈕將由腳本動態生成到這裡 -->
+  </div>
 </div>
 
 <!-- 瀑布流畫廊 -->
@@ -81,14 +86,51 @@ title: 角色畫廊
   /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
 }
 
-/* 角色導航樣式 */
-.character-nav {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
+/* 角色導航樣式 - 更新為折疊式設計 */
+.character-nav-container {
   margin: 20px auto;
   max-width: 800px;
+  position: relative;
+}
+
+.character-nav-main {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.character-dropdown {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  max-width: 90%;
+  max-height: 300px;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  width: max-content;
+}
+
+/* 暗色模式的下拉菜單背景 */
+@media (prefers-color-scheme: dark) {
+  .character-dropdown {
+    background: var(--dark);
+    border-color: var(--secondary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.character-dropdown.active {
+  display: flex;
 }
 
 .char-btn {
@@ -99,6 +141,21 @@ title: 角色畫廊
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter-btn .arrow {
+  transition: transform 0.3s ease;
+}
+
+.filter-btn.active .arrow {
+  transform: rotate(180deg);
 }
 
 .char-btn:hover,
@@ -636,18 +693,23 @@ body .article .slide-caption h3::after,
       profileLink: '人物設定(DB)/黑村-紫',
       images: [
         {
-          src: '_Attach/Image/avatar/tachie/hcz-tachie.PNG',
+          src: '_Attach/Image/avatar/tachie/hcz-tachie.webp',
           alt: '黑村紫立繪',
           fallback: null // 無備用圖像
         },
         {
-          src: '_Attach/Image/HCZ.png',
+          src: '_Attach/Image/HCZ.webp',
           alt: '黑村紫',
           fallback: null
         },
         {
-          src: '_Attach/Image/IMG_6340.JPG',
+          src: '_Attach/Image/IMG_6340.webp',
           alt: '鼠紫',
+          fallback: null
+        },
+        {
+          src: '_Attach/Image/ID-Card.webp',
+          alt: '學生證',
           fallback: null
         }
       ]
@@ -659,19 +721,19 @@ body .article .slide-caption h3::after,
       profileLink: '人物設定(DB)/東山-旅',
       images: [
         {
-          src: '_Attach/Image/avatar/tachie/dsl-tachie.PNG',
+          src: '_Attach/Image/avatar/tachie/dsl-tachie.webp',
           alt: '東山旅立繪',
-          fallback: '_Attach/Image/avatar/tachie/dsl-tachie.png'
+          fallback: '_Attach/Image/avatar/tachie/dsl-tachie.webp'
         },
         {
-          src: '_Attach/Image/IMG_6340.JPG',
+          src: '_Attach/Image/IMG_6340.webp',
           alt: '鼠紫',
           fallback: '_Attach/Image/IMG_6340.jpg'
         },
         {
-          src: '_Attach/Image/DSL.png',
-          alt: '東山旅其他立繪',
-          fallback: '_Attach/Image/DSL.PNG'
+          src: '_Attach/Image/DSL.webp',
+          alt: '東山旅',
+          fallback: '_Attach/Image/DSL.webp'
         }
       ]
     },
@@ -682,8 +744,13 @@ body .article .slide-caption h3::after,
       profileLink: '人物設定(DB)/赤井-刹那',
       images: [
         {
-          src: '_Attach/Image/stn2.png',
+          src: '_Attach/Image/stn2.webp',
           alt: '實驗室',
+          fallback: null // 移除相同的备用路径，使用null更合适
+        },
+        {
+          src: '_Attach/Image/stn.webp',
+          alt: '赤井刹那',
           fallback: null // 移除相同的备用路径，使用null更合适
         }
       ]
@@ -695,9 +762,9 @@ body .article .slide-caption h3::after,
       profileLink: '人物設定(DB)/Klein-Klein',
       images: [
         {
-          src: '_Attach/Image/avatar/tachie/kln-tachie.PNG',
+          src: '_Attach/Image/avatar/tachie/kln-tachie.webp',
           alt: 'Klein立繪',
-          fallback: '_Attach/Image/avatar/tachie/kln-tachie.png'
+          fallback: '_Attach/Image/avatar/tachie/kln-tachie.webp'
         }
       ]
     }
@@ -772,33 +839,71 @@ body .article .slide-caption h3::after,
     
     const charactersContainer = document.getElementById('character-slides');
     const masonryContainer = document.getElementById('masonry-gallery');
-    const navContainer = document.getElementById('character-nav');
+    const navMainContainer = document.getElementById('character-nav-main');
+    const dropdownContainer = document.getElementById('character-dropdown');
     
     // 清空容器
-    if(!charactersContainer || !masonryContainer || !navContainer) {
+    if(!charactersContainer || !masonryContainer || !navMainContainer || !dropdownContainer) {
       console.error('無法找到畫廊容器元素');
       return;
     }
 
     charactersContainer.innerHTML = '';
     masonryContainer.innerHTML = '';
-    navContainer.innerHTML = '';
+    navMainContainer.innerHTML = '';
+    dropdownContainer.innerHTML = '';
     
     // 添加"全部"按鈕
     const allButton = document.createElement('button');
     allButton.className = 'char-btn active'; // 默認設置為激活狀態
     allButton.setAttribute('data-target', 'all');
     allButton.textContent = '全部';
-    navContainer.appendChild(allButton);
+    navMainContainer.appendChild(allButton);
     
-    // 創建角色按鈕和滑塊
+    // 添加"篩選角色"按鈕
+    const filterButton = document.createElement('button');
+    filterButton.className = 'char-btn filter-btn';
+    filterButton.setAttribute('data-action', 'filter');
+    
+    // 使用DOM API創建文本和箭頭元素，而不是innerHTML
+    const buttonText = document.createTextNode('篩選角色 ');
+    filterButton.appendChild(buttonText);
+    
+    const arrowSpan = document.createElement('span');
+    arrowSpan.className = 'arrow';
+    arrowSpan.textContent = '▼';
+    filterButton.appendChild(arrowSpan);
+    
+    navMainContainer.appendChild(filterButton);
+    
+    // 添加篩選按鈕點擊事件
+    filterButton.addEventListener('click', function() {
+      const dropdown = document.getElementById('character-dropdown');
+      dropdown.classList.toggle('active');
+      this.classList.toggle('active');
+    });
+    
+    // 點擊外部區域關閉下拉菜單
+    document.addEventListener('click', function(event) {
+      const isFilterButton = event.target.closest('.filter-btn');
+      const isDropdown = event.target.closest('.character-dropdown');
+      
+      if (!isFilterButton) {
+        if (!isDropdown) {
+          document.getElementById('character-dropdown').classList.remove('active');
+          document.querySelector('.filter-btn').classList.remove('active');
+        }
+      }
+    });
+    
+    // 創建角色按鈕并添加到下拉菜單
     characterGalleryData.forEach((character, index) => {
       // 創建角色按鈕
       const charButton = document.createElement('button');
       charButton.className = 'char-btn';
       charButton.setAttribute('data-target', character.id);
       charButton.textContent = character.name;
-      navContainer.appendChild(charButton);
+      dropdownContainer.appendChild(charButton);
       
       // 創建瀑布流項目
       character.images.forEach((image, imgIndex) => {
@@ -820,7 +925,12 @@ body .article .slide-caption h3::after,
         const img = document.createElement('img');
         img.src = encodeURI(image.src);
         img.alt = image.alt;
-        img.setAttribute('data-image-path', image.src);
+        
+        // 標準化存儲的圖片路徑，確保去重一致性
+        // 完整的路徑標準化：轉為小寫、移除相對路徑標記、移除任何URL參數
+        const normalizedPath = image.src.replace(/^\.\//, '').toLowerCase().split('?')[0].split('#')[0].trim();
+        img.setAttribute('data-image-path', normalizedPath);
+        
         img.setAttribute('data-character-name', character.name);
         img.setAttribute('data-description', character.description);
         img.setAttribute('data-profile-link', character.profileLink);
@@ -1113,11 +1223,17 @@ body .article .slide-caption h3::after,
     function showCharacter(targetId) {
       console.log(`嘗試顯示: ${targetId}`);
       
-      // 更新按鈕狀態
+      // 更新按鈕狀態 (包括下拉菜單中的按鈕)
       document.querySelectorAll('.char-btn').forEach(btn => {
         if (btn.getAttribute('data-target') === targetId) {
           btn.classList.add('active');
-        } else {
+          
+          // 如果是下拉菜單中的按鈕被選中，關閉下拉菜單
+          if (btn.closest('.character-dropdown')) {
+            document.getElementById('character-dropdown').classList.remove('active');
+            document.querySelector('.filter-btn').classList.remove('active');
+          }
+        } else if (btn.getAttribute('data-target')) { // 只清除具有data-target的按鈕
           btn.classList.remove('active');
         }
       });
@@ -1137,6 +1253,7 @@ body .article .slide-caption h3::after,
         
         // 處理重複圖片 - 創建一個集合來跟踪已顯示的圖片路徑
         const shownImagePaths = new Set();
+        console.log('開始圖片去重處理...');
         
         // 先隱藏所有項目
         document.querySelectorAll('.masonry-item').forEach(item => {
@@ -1144,16 +1261,27 @@ body .article .slide-caption h3::after,
           item.style.display = 'none'; // 確保隱藏
         });
         
+        // 先獲取所有圖片路徑以便日誌
+        let totalItems = document.querySelectorAll('.masonry-item').length;
+        console.log(`瀑布流中共有 ${totalItems} 個圖片項目`);
+        
         // 然後有選擇地顯示項目，避免重複圖片
         document.querySelectorAll('.masonry-item').forEach(item => {
           const img = item.querySelector('img');
           const imagePath = img.getAttribute('data-image-path');
           
           // 如果該圖片路徑尚未顯示，則顯示此項目
-          if (!shownImagePaths.has(imagePath)) {
-            item.classList.add('show');
-            item.style.display = 'block'; // 確保顯示
-            shownImagePaths.add(imagePath);
+          if (imagePath) {
+            if (!shownImagePaths.has(imagePath)) {
+              item.classList.add('show');
+              item.style.display = 'block'; // 確保顯示
+              shownImagePaths.add(imagePath);
+              console.log(`顯示圖片: ${imagePath}`);
+            } else {
+              console.log(`跳過重複圖片: ${imagePath}`);
+            }
+          } else {
+            console.log(`跳過空路徑圖片`);
           }
         });
         
@@ -1205,8 +1333,8 @@ body .article .slide-caption h3::after,
       }
     }
 
-    // 處理按鈕點擊
-    document.querySelectorAll('.char-btn').forEach(button => {
+    // 處理按鈕點擊 (包括下拉菜單中的按鈕)
+    document.querySelectorAll('.char-btn[data-target]').forEach(button => {
       button.addEventListener('click', function() {
         const targetId = this.getAttribute('data-target');
         console.log(`點擊角色按鈕: ${targetId}`);
