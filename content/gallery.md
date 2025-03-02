@@ -715,7 +715,7 @@ body .article .slide-caption h3::after,
       ]
     },
     {
-      id: 'azmt',
+      id: 'dsl',
       name: '東山 旅',
       description: '大學生/人類社會的高效低功耗垃圾回收站',
       profileLink: '人物設定(DB)/東山-旅',
@@ -766,6 +766,25 @@ body .article .slide-caption h3::after,
           alt: 'Klein立繪',
           fallback: '_Attach/Image/avatar/tachie/kln-tachie.webp'
         }
+      ]
+    },
+    {
+      id: 'rjhm',
+      name: '入江 海馬',
+      description: '研究生(考古學) / 藝術家',
+      profileLink: '人物設定(DB)/入江-海馬',
+      images: [
+        {
+          src: '_Attach/Image/rjhm.webp',
+          alt: '入江 海馬',
+          fallback: '_Attach/Image/rjhm.webp'
+        },
+        {
+          src: '_Attach/Image/rjhm2.webp',
+          alt: '海馬體',
+          fallback: '_Attach/Image/rjhm2.webp'
+        }
+        
       ]
     }
     // 添加新角色只需在此處添加新的對象
