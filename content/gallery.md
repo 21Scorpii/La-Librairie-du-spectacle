@@ -783,8 +783,35 @@ body .article .slide-caption h3::after,
           src: '_Attach/Image/rjhm2.webp',
           alt: '海馬體',
           fallback: '_Attach/Image/rjhm2.webp'
+        },
+        {
+          src: '_Attach/Image/rjhm3.webp',
+          alt: '海馬體',
+          fallback: '_Attach/Image/rjhm3.webp'
         }
-        
+      ]
+    },
+    {
+      id: 'tgj',
+      name: '四月朔日 透過',
+      description: '？？？',
+      profileLink: '人物設定(DB)/四月朔日-透過',
+      images: [
+        {
+          src: '_Attach/Image/tgj1.webp',
+          alt: '暴雨',
+          fallback: '_Attach/Image/tgj1.webp'
+        },
+        {
+          src: '_Attach/Image/tgj2.webp',
+          alt: '意識',
+          fallback: '_Attach/Image/tgj2.webp'
+        },
+        {
+          src: '_Attach/Image/IMG_7806.webp',
+          alt: '塔',
+          fallback: '_Attach/Image/IMG_7806.webp'
+        }
       ]
     }
     // 添加新角色只需在此處添加新的對象
@@ -808,6 +835,8 @@ body .article .slide-caption h3::after,
   // 確保腳本只會執行一次的標記
   let characterGalleryInitialized = false;
   let lightGalleryInstance = null;
+  // 添加 sliders 對象來存儲所有輪播實例
+  let sliders = {};
   
   // 處理所有角色數據，確保profileLink中的空格被替換為短橫線
   function processCharacterData() {
@@ -818,6 +847,183 @@ body .article .slide-caption h3::after,
         console.log(`已將 ${character.name} 的profileLink空格替換為短橫線: ${character.profileLink}`);
       }
     });
+  }
+  
+  // 初始化所有輪播
+  function initSliders() {
+    console.log('初始化所有角色輪播...');
+    
+    // 清空現有的輪播實例
+    sliders = {};
+    
+    // 為每個角色創建輪播實例
+    characterGalleryData.forEach(character => {
+      const sliderId = `${character.id}-slider`;
+      const sliderElement = document.getElementById(sliderId);
+      
+      if (!sliderElement) {
+        console.error(`找不到輪播元素: ${sliderId}`);
+        return;
+      }
+      
+      try {
+        console.log(`初始化輪播: ${sliderId}`);
+        sliders[sliderId] = new Glide(`#${sliderId}`, {
+          type: 'carousel',
+          perView: 1,
+          focusAt: 'center',
+          gap: 0,
+          animationDuration: 300,
+          autoplay: false,
+          hoverpause: true,
+          keyboard: true,
+          swipeThreshold: 80,
+          dragThreshold: 120,
+          peek: 0,
+          breakpoints: {
+            800: {
+              perView: 1
+            }
+          }
+        }).mount();
+      } catch (e) {
+        console.error(`初始化輪播失敗: ${sliderId}`, e);
+      }
+    });
+    
+    console.log('所有輪播初始化完成，總數:', Object.keys(sliders).length);
+  }
+  
+  // 顯示特定角色的函數 - 移到全局作用域
+  function showCharacter(targetId) {
+    console.log(`嘗試顯示: ${targetId}`);
+    
+    // 更新按鈕狀態 (包括下拉菜單中的按鈕)
+    document.querySelectorAll('.char-btn').forEach(btn => {
+      if (btn.getAttribute('data-target') === targetId) {
+        btn.classList.add('active');
+        
+        // 如果是下拉菜單中的按鈕被選中，關閉下拉菜單
+        if (btn.closest('.character-dropdown')) {
+          document.getElementById('character-dropdown').classList.remove('active');
+          document.querySelector('.filter-btn').classList.remove('active');
+        }
+      } else {
+        if (btn.getAttribute('data-target')) { // 只清除具有data-target的按鈕
+          btn.classList.remove('active');
+        }
+      }
+    });
+
+    // 如果是"全部"模式
+    if (targetId === 'all') {
+      // 隱藏輪播視圖
+      document.querySelector('.character-slides').style.display = 'none';
+      
+      // 顯示瀑布流
+      const masonryContainer = document.getElementById('masonry-gallery');
+      masonryContainer.classList.add('active');
+      masonryContainer.style.display = 'block'; // 確保顯示
+      
+      // 添加全部模式類名，用於隱藏圖片說明
+      masonryContainer.classList.add('all-mode');
+      
+      // 處理重複圖片 - 創建一個集合來跟踪已顯示的圖片路徑
+      const shownImagePaths = new Set();
+      console.log('開始圖片去重處理...');
+      
+      // 先隱藏所有項目
+      document.querySelectorAll('.masonry-item').forEach(item => {
+        item.classList.remove('show');
+        item.style.display = 'none'; // 確保隱藏
+      });
+      
+      // 先獲取所有圖片路徑以便日誌
+      let totalItems = document.querySelectorAll('.masonry-item').length;
+      console.log(`瀑布流中共有 ${totalItems} 個圖片項目`);
+      
+      // 然後有選擇地顯示項目，避免重複圖片
+      document.querySelectorAll('.masonry-item').forEach(item => {
+        const img = item.querySelector('img');
+        if (!img) {
+          console.log('跳過沒有圖片的項目');
+          return;
+        }
+        
+        const imagePath = img.getAttribute('data-image-path');
+        
+        // 如果該圖片路徑尚未顯示，則顯示此項目
+        if (imagePath) {
+          if (!shownImagePaths.has(imagePath)) {
+            item.classList.add('show');
+            item.style.display = 'block'; // 確保顯示
+            shownImagePaths.add(imagePath);
+            console.log(`顯示圖片: ${imagePath}`);
+          } else {
+            console.log(`跳過重複圖片: ${imagePath}`);
+          }
+        } else {
+          console.log(`跳過空路徑圖片`);
+        }
+      });
+      
+      // 在"全部"模式下初始化 lightGallery
+      // 增加延遲時間，確保DOM已完全更新
+      setTimeout(function() {
+        // 再次檢查是否有可見的圖片
+        const visibleItems = document.querySelectorAll('.masonry-item.show');
+        console.log(`去重後可見圖片數量: ${visibleItems.length}`);
+        
+        if (visibleItems.length > 0) {
+          initLightGallery();
+        } else {
+          console.warn('沒有可見的圖片，無法初始化lightGallery');
+        }
+      }, 300);
+      
+      return;
+    }
+    
+    // 如果不是"全部"模式，隱藏瀑布流，顯示輪播
+    const masonryContainer = document.getElementById('masonry-gallery');
+    masonryContainer.classList.remove('active');
+    masonryContainer.style.display = 'none'; // 確保隱藏瀑布流
+    // 移除全部模式類名
+    masonryContainer.classList.remove('all-mode');
+    document.querySelector('.character-slides').style.display = 'block';
+
+    // 切換輪播顯示
+    document.querySelectorAll('.character-slider').forEach(slider => {
+      if (slider.id === `${targetId}-slider`) {
+        slider.classList.add('active');
+        
+        // 確保該輪播已初始化並更新
+        if (sliders[slider.id]) {
+          setTimeout(() => {
+            console.log(`更新輪播: ${slider.id}`);
+            sliders[slider.id].update();
+          }, 50); // 給DOM一些時間來響應切換
+        }
+      } else {
+        slider.classList.remove('active');
+      }
+    });
+    
+    // 在瀑布流中僅顯示當前角色的項目（雖然瀑布流已被隱藏）
+    document.querySelectorAll('.masonry-item').forEach(item => {
+      if (item.getAttribute('data-character') === targetId) {
+        item.classList.add('show');
+        item.style.display = 'block'; // 設置但仍然不會顯示因為容器被隱藏
+      } else {
+        item.classList.remove('show');
+        item.style.display = 'none';
+      }
+    });
+    
+    // 如果是特定角色模式，初始化它們的輪播圖而不是lightGallery
+    if (sliders[`${targetId}-slider`]) {
+      setTimeout(() => sliders[`${targetId}-slider`].update(), 100);
+    }
   }
   
   // 添加對 Quartz SPA 導航事件的監聽
@@ -1023,335 +1229,71 @@ body .article .slide-caption h3::after,
         if (image.fallback) {
           img.onerror = function() {
             this.onerror = null;
-            console.log(`图片加载失败: ${image.src}，尝试使用备用图片: ${image.fallback}`);
+            console.log(`輪播圖片加載失敗: ${image.src}，嘗試使用備用圖片: ${image.fallback}`);
             this.src = encodeURI(image.fallback);
-          };
-        } else {
-          img.onerror = function() {
-            console.error(`图片加载失败，无备用图片: ${image.src}`);
           };
         }
         
         imageContainer.appendChild(img);
         slide.appendChild(imageContainer);
+        
+        // 添加說明文字
+        const captionDiv = document.createElement('div');
+        captionDiv.className = 'slide-caption';
+        
+        // 創建標題
+        const title = document.createElement('h3');
+        const titleLink = document.createElement('a');
+        titleLink.href = character.profileLink;
+        titleLink.textContent = character.name;
+        title.appendChild(titleLink);
+        captionDiv.appendChild(title);
+        
+        // 創建描述
+        const description = document.createElement('p');
+        description.textContent = image.alt || character.description;
+        captionDiv.appendChild(description);
+        
+        // 添加角色鏈接
+        const profileLink = document.createElement('a');
+        profileLink.href = character.profileLink;
+        profileLink.className = 'character-link';
+        profileLink.textContent = '查看角色檔案';
+        captionDiv.appendChild(profileLink);
+        
+        slide.appendChild(captionDiv);
         slidesList.appendChild(slide);
       });
       
-      // 創建輪播點
-      const bulletsDiv = document.createElement('div');
-      bulletsDiv.className = 'glide__bullets';
-      bulletsDiv.setAttribute('data-glide-el', 'controls[nav]');
-      
-      character.images.forEach((_, imageIndex) => {
-        const bullet = document.createElement('button');
-        bullet.className = 'glide__bullet';
-        bullet.setAttribute('data-glide-dir', `=${imageIndex}`);
-        bulletsDiv.appendChild(bullet);
-      });
-      
-      // 創建輪播箭頭
-      const arrowsDiv = document.createElement('div');
-      arrowsDiv.className = 'glide__arrows';
-      arrowsDiv.setAttribute('data-glide-el', 'controls');
-      
-      const leftArrow = document.createElement('button');
-      leftArrow.className = 'glide__arrow glide__arrow--left';
-      leftArrow.setAttribute('data-glide-dir', '<');
-      leftArrow.textContent = '←';
-      
-      const rightArrow = document.createElement('button');
-      rightArrow.className = 'glide__arrow glide__arrow--right';
-      rightArrow.setAttribute('data-glide-dir', '>');
-      rightArrow.textContent = '→';
-      
-      arrowsDiv.appendChild(leftArrow);
-      arrowsDiv.appendChild(rightArrow);
-      
-      // 將軌道和控制元素添加到輪播
       trackDiv.appendChild(slidesList);
-      trackDiv.appendChild(bulletsDiv);
-      trackDiv.appendChild(arrowsDiv);
       sliderDiv.appendChild(trackDiv);
       
-      // 創建說明文字
-      const captionDiv = document.createElement('div');
-      captionDiv.className = 'slide-caption';
+      // 添加輪播控制
+      const controlsDiv = document.createElement('div');
+      controlsDiv.className = 'glide__arrows';
+      controlsDiv.setAttribute('data-glide-el', 'controls');
       
-      const captionTitle = document.createElement('h3');
-      captionTitle.textContent = character.name;
+      const prevButton = document.createElement('button');
+      prevButton.className = 'glide__arrow glide__arrow--left';
+      prevButton.setAttribute('data-glide-dir', '<');
+      prevButton.textContent = '←';
       
-      const captionDesc = document.createElement('p');
-      captionDesc.textContent = character.description;
+      const nextButton = document.createElement('button');
+      nextButton.className = 'glide__arrow glide__arrow--right';
+      nextButton.setAttribute('data-glide-dir', '>');
+      nextButton.textContent = '→';
       
-      const captionLink = document.createElement('a');
-      captionLink.href = character.profileLink;
-      captionLink.className = 'character-link';
-      captionLink.textContent = '查看角色檔案';
+      controlsDiv.appendChild(prevButton);
+      controlsDiv.appendChild(nextButton);
+      sliderDiv.appendChild(controlsDiv);
       
-      // 為輪播中的角色链接添加点击事件处理器
-      captionLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        // 使用window.location.href手动跳转，确保使用正确格式的URL
-        window.location.href = character.profileLink;
-      });
-      
-      captionDiv.appendChild(captionTitle);
-      captionDiv.appendChild(captionDesc);
-      captionDiv.appendChild(captionLink);
-      
-      sliderDiv.appendChild(captionDiv);
-      
-      // 將輪播添加到容器
+      // 添加輪播到容器
       charactersContainer.appendChild(sliderDiv);
     });
     
     // 初始化所有輪播
-    const sliders = {};
-    
-    function initSliders() {
-      document.querySelectorAll('.character-slider').forEach(slider => {
-        const id = slider.id;
-        
-        // 如果已經初始化過，先銷毀
-        if (sliders[id]) {
-          sliders[id].destroy();
-        }
-        
-        // 重新初始化
-        try {
-          console.log(`初始化輪播: ${id}`);
-          sliders[id] = new Glide(`#${id}`, {
-            type: 'carousel',
-            perView: 1,
-            focusAt: 'center',
-            gap: 0,
-            autoplay: 5000,
-            hoverpause: true,
-            animationDuration: 800
-          }).mount();
-        } catch (e) {
-          console.error(`初始化輪播 ${id} 失敗:`, e);
-        }
-      });
-    }
-    
-    // 初始化 lightGallery
-    function initLightGallery() {
-      // 添加調試信息
-      console.log('開始初始化 lightGallery...');
-      console.log('lightGallery 是否已加載:', typeof lightGallery !== 'undefined');
-      console.log('lgZoom 是否已加載:', typeof window.lgZoom !== 'undefined');
-      console.log('lgMediumZoom 是否已加載:', typeof window.lgMediumZoom !== 'undefined');
-      
-      if(typeof lightGallery === 'undefined') {
-        console.error('lightGallery 未加載，無法初始化，嘗試手動加載');
-        loadLightGalleryManually();
-        return;
-      }
-      
-      // 如果已經存在實例，先銷毀
-      if(lightGalleryInstance) {
-        try {
-          console.log('銷毀先前的lightGallery實例');
-          lightGalleryInstance.destroy();
-        } catch (e) {
-          console.error('銷毀lightGallery實例時出錯:', e);
-        } finally {
-          lightGalleryInstance = null;
-        }
-      }
-      
-      try {
-        console.log('初始化 lightGallery (MediumZoom模式)...');
-        
-        // 檢查是否有可見的圖片
-        const imgLinks = document.querySelectorAll('.masonry-item.show figure.blog-images');
-        if(imgLinks.length === 0) {
-          console.log('沒有找到可見的圖片鏈接，無法初始化 lightGallery');
-          return;
-        }
-        
-        // 參考官方示例的簡潔配置
-        lightGalleryInstance = lightGallery(document.getElementById('masonry-gallery'), {
-          selector: '.masonry-item.show figure.blog-images',
-          licenseKey: 'GPL3',
-          plugins: [lgMediumZoom],
-          speed: 500,
-          allowMediaOverlap: true,
-          download: false,
-          counter: false,
-          closable: true,
-          showMaximizeIcon: false,
-          showZoomInOutIcons: false,
-          slideEndAnimation: false, // 禁用幻灯片结束动画
-          
-          // Medium Zoom 設定 - 移除过渡动画
-          backdropDuration: 0, // 背景淡入淡出时间设为0
-          cssEasing: 'linear', // 使用线性缓动
-          easing: 'linear',
-          mode: 'lg-medium-zoom',
-          preload: 2,
-          
-          // 禁用缩放动画
-          zoomFromOrigin: false, // 禁用从原位置缩放
-          
-          // Medium Zoom 特有设置
-          mediumZoom: {
-            margin: 40,            // 边距
-            background: 'rgba(0, 0, 0, 0.85)', // 设置为半透明黑色背景
-            scrollOffset: 40,      // 滚动偏移
-          },
-          
-          // 禁用不需要的功能
-          controls: false,
-          thumbnail: false,
-          rotate: false,
-          fullScreen: false,
-          slideDelay: 0, // 取消幻灯片切换延迟
-          hideControlOnEnd: true
-        });
-        
-        console.log('成功初始化 MediumZoom 版 lightGallery（已禁用過渡動畫）');
-      } catch (e) {
-        console.error('初始化 lightGallery 失敗:', e);
-        console.error(e.stack);
-      }
-    }
-    
-    // 首次初始化
     initSliders();
     
-    // 窗口大小變化時重新初始化
-    window.addEventListener('resize', function() {
-      // 使用防抖技術，避免頻繁調用
-      clearTimeout(window.resizeTimer);
-      window.resizeTimer = setTimeout(function() {
-        // 獲取當前活動的角色ID
-        const activeSlider = document.querySelector('.character-slider.active');
-        const activeId = activeSlider ? activeSlider.id.replace('-slider', '') : characterGalleryData[0].id;
-        
-        // 重新初始化所有輪播
-        initSliders();
-        
-        // 確保當前活動的角色保持顯示
-        showCharacter(activeId);
-      }, 250);
-    });
-
-    // 顯示特定角色的函數
-    function showCharacter(targetId) {
-      console.log(`嘗試顯示: ${targetId}`);
-      
-      // 更新按鈕狀態 (包括下拉菜單中的按鈕)
-      document.querySelectorAll('.char-btn').forEach(btn => {
-        if (btn.getAttribute('data-target') === targetId) {
-          btn.classList.add('active');
-          
-          // 如果是下拉菜單中的按鈕被選中，關閉下拉菜單
-          if (btn.closest('.character-dropdown')) {
-            document.getElementById('character-dropdown').classList.remove('active');
-            document.querySelector('.filter-btn').classList.remove('active');
-          }
-        } else if (btn.getAttribute('data-target')) { // 只清除具有data-target的按鈕
-          btn.classList.remove('active');
-        }
-      });
-
-      // 如果是"全部"模式
-      if (targetId === 'all') {
-        // 隱藏輪播視圖
-        document.querySelector('.character-slides').style.display = 'none';
-        
-        // 顯示瀑布流
-        const masonryContainer = document.getElementById('masonry-gallery');
-        masonryContainer.classList.add('active');
-        masonryContainer.style.display = 'block'; // 確保顯示
-        
-        // 添加全部模式類名，用於隱藏圖片說明
-        masonryContainer.classList.add('all-mode');
-        
-        // 處理重複圖片 - 創建一個集合來跟踪已顯示的圖片路徑
-        const shownImagePaths = new Set();
-        console.log('開始圖片去重處理...');
-        
-        // 先隱藏所有項目
-        document.querySelectorAll('.masonry-item').forEach(item => {
-          item.classList.remove('show');
-          item.style.display = 'none'; // 確保隱藏
-        });
-        
-        // 先獲取所有圖片路徑以便日誌
-        let totalItems = document.querySelectorAll('.masonry-item').length;
-        console.log(`瀑布流中共有 ${totalItems} 個圖片項目`);
-        
-        // 然後有選擇地顯示項目，避免重複圖片
-        document.querySelectorAll('.masonry-item').forEach(item => {
-          const img = item.querySelector('img');
-          const imagePath = img.getAttribute('data-image-path');
-          
-          // 如果該圖片路徑尚未顯示，則顯示此項目
-          if (imagePath) {
-            if (!shownImagePaths.has(imagePath)) {
-              item.classList.add('show');
-              item.style.display = 'block'; // 確保顯示
-              shownImagePaths.add(imagePath);
-              console.log(`顯示圖片: ${imagePath}`);
-            } else {
-              console.log(`跳過重複圖片: ${imagePath}`);
-            }
-          } else {
-            console.log(`跳過空路徑圖片`);
-          }
-        });
-        
-        // 在"全部"模式下初始化 lightGallery
-        setTimeout(initLightGallery, 100);
-        
-        return;
-      }
-      
-      // 如果不是"全部"模式，隱藏瀑布流，顯示輪播
-      const masonryContainer = document.getElementById('masonry-gallery');
-      masonryContainer.classList.remove('active');
-      masonryContainer.style.display = 'none'; // 確保隱藏瀑布流
-      // 移除全部模式類名
-      masonryContainer.classList.remove('all-mode');
-      document.querySelector('.character-slides').style.display = 'block';
-
-      // 切換輪播顯示
-      document.querySelectorAll('.character-slider').forEach(slider => {
-        if (slider.id === `${targetId}-slider`) {
-          slider.classList.add('active');
-          
-          // 確保該輪播已初始化並更新
-          if (sliders[slider.id]) {
-            setTimeout(() => {
-              console.log(`更新輪播: ${slider.id}`);
-              sliders[slider.id].update();
-            }, 50); // 給DOM一些時間來響應切換
-          }
-        } else {
-          slider.classList.remove('active');
-        }
-      });
-      
-      // 在瀑布流中僅顯示當前角色的項目（雖然瀑布流已被隱藏）
-      document.querySelectorAll('.masonry-item').forEach(item => {
-        if (item.getAttribute('data-character') === targetId) {
-          item.classList.add('show');
-          item.style.display = 'block'; // 設置但仍然不會顯示因為容器被隱藏
-        } else {
-          item.classList.remove('show');
-          item.style.display = 'none';
-        }
-      });
-      
-      // 如果是特定角色模式，初始化它們的輪播圖而不是lightGallery
-      if (sliders[`${targetId}-slider`]) {
-        setTimeout(() => sliders[`${targetId}-slider`].update(), 100);
-      }
-    }
-
     // 處理按鈕點擊 (包括下拉菜單中的按鈕)
     document.querySelectorAll('.char-btn[data-target]').forEach(button => {
       button.addEventListener('click', function() {
@@ -1371,8 +1313,9 @@ body .article .slide-caption h3::after,
       const hash = window.location.hash.substring(1);
       if (hash) {
         console.log(`從 URL 錨點跳轉到: ${hash}`);
-        // 檢查是否有與錨點匹配的按鈕
-        const targetButton = document.querySelector('.char-btn[data-target="' + hash + '"]');
+        // 檢查是否有與錨點匹配的按鈕 - 使用不含引號的選擇器
+        const selector = '.char-btn[data-target=' + hash + ']';
+        const targetButton = document.querySelector(selector);
         if (targetButton) {
           targetButton.click();
         }
@@ -1388,10 +1331,12 @@ body .article .slide-caption h3::after,
     // 默認顯示第一個角色，如果沒有指定錨點則顯示"全部"視圖
     if (!window.location.hash) {
       showCharacter('all');
-      // 確保"全部"按鈕處於激活狀態
-      document.querySelector('.char-btn[data-target="all"]').classList.add('active');
+      // 確保"全部"按鈕處於激活狀態 - 修改選擇器語法
+      const allSelector = '.char-btn[data-target=all]';
+      document.querySelector(allSelector).classList.add('active');
       // 移除其他按鈕的激活狀態
-      document.querySelectorAll('.char-btn:not([data-target="all"])').forEach(btn => {
+      const otherSelector = '.char-btn:not([data-target=all])';
+      document.querySelectorAll(otherSelector).forEach(btn => {
         btn.classList.remove('active');
       });
     }
@@ -1435,6 +1380,16 @@ body .article .slide-caption h3::after,
           // 如果沒有激活按鈕，默認顯示全部
           console.log('DOM載入完成後：沒有激活按鈕，默認顯示全部');
           showCharacter('all');
+          
+          // 確保在全部模式下初始化lightGallery
+          setTimeout(function() {
+            if (typeof lightGallery !== 'undefined') {
+              if (!lightGalleryInstance) {
+                console.log('DOM載入完成後：嘗試初始化lightGallery');
+                initLightGallery();
+              }
+            }
+          }, 500);
         }
       }, 300);
     } else {
@@ -1449,6 +1404,17 @@ body .article .slide-caption h3::after,
   function waitForLightGallery() {
     if(typeof lightGallery !== 'undefined') {
       console.log('lightGallery 已加載，可以使用');
+      
+      // 確保在全部模式下初始化lightGallery
+      setTimeout(function() {
+        if (!lightGalleryInstance) {
+          if (document.querySelector('.masonry-item.show')) {
+            console.log('lightGallery已加載：嘗試初始化lightGallery');
+            initLightGallery();
+          }
+        }
+      }, 300);
+      
       return true;
     } else {
       console.log('等待 lightGallery 加載...');
@@ -1500,6 +1466,22 @@ body .article .slide-caption h3::after,
         // 加載完成後嘗試初始化
         setTimeout(function() {
           console.log('嘗試初始化 lightGallery');
+          
+          // 確保在"全部"模式下有可見的圖片 - 修改選擇器語法
+          const allBtnSelector = '.char-btn[data-target=all]';
+          const allButton = document.querySelector(allBtnSelector);
+          if (allButton) {
+            if (allButton.classList.contains('active')) {
+              // 檢查是否有可見的圖片
+              const visibleItems = document.querySelectorAll('.masonry-item.show');
+              if (visibleItems.length === 0) {
+                console.log('沒有可見圖片，嘗試修復可見性');
+                // 再次調用showCharacter來修復可見性
+                showCharacter('all');
+              }
+            }
+          }
+          
           initLightGallery();
         }, 500);
       };
@@ -1530,6 +1512,16 @@ body .article .slide-caption h3::after,
         console.log('頁面加載完成：沒有激活按鈕，默認顯示全部');
         showCharacter('all');
       }
+      
+      // 確保lightGallery已初始化
+      setTimeout(function() {
+        if (typeof lightGallery !== 'undefined') {
+          if (!lightGalleryInstance) {
+            console.log('頁面加載完成後：嘗試初始化lightGallery');
+            initLightGallery();
+          }
+        }
+      }, 500);
     }, 500);
     
     // 檢查 lightGallery
@@ -1540,8 +1532,8 @@ body .article .slide-caption h3::after,
   });
 
   // 立即自動執行初始化
-  if(document.readyState === 'complete' || document.readyState === 'interactive') {
-    console.log('文檔已準備就緒，立即初始化');
+  if(document.readyState === 'complete') {
+    console.log('文檔已完全加載，立即初始化');
     setTimeout(function() {
       if(!characterGalleryInitialized) {
         if(typeof Glide !== 'undefined') {
@@ -1559,12 +1551,225 @@ body .article .slide-caption h3::after,
               console.log('立即顯示全部（無激活按鈕）');
               showCharacter('all');
             }
-          }, 100);
+            
+            // 確保lightGallery已初始化
+            setTimeout(function() {
+              if (typeof lightGallery !== 'undefined') {
+                if (!lightGalleryInstance) {
+                  console.log('立即初始化：嘗試初始化lightGallery');
+                  
+                  // 確保在"全部"模式下有可見的圖片 - 修改選擇器語法
+                  const allBtnSelector = '.char-btn[data-target=all]';
+                  const allButton = document.querySelector(allBtnSelector);
+                  if (allButton) {
+                    if (allButton.classList.contains('active')) {
+                      // 檢查是否有可見的圖片
+                      const visibleItems = document.querySelectorAll('.masonry-item.show');
+                      if (visibleItems.length === 0) {
+                        console.log('沒有可見圖片，嘗試修復可見性');
+                        // 再次調用showCharacter來修復可見性
+                        showCharacter('all');
+                      }
+                    }
+                  }
+                  
+                  initLightGallery();
+                }
+              }
+            }, 500);
+          }, 300);
         } else {
           waitForGlide();
         }
       }
     }, 100);
+  } else {
+    if(document.readyState === 'interactive') {
+      console.log('文檔處於互動狀態，立即初始化');
+      setTimeout(function() {
+        if(!characterGalleryInitialized) {
+          if(typeof Glide !== 'undefined') {
+            initGallery();
+            
+            // 根據當前激活的按鈕顯示對應內容
+            setTimeout(function() {
+              const activeBtn = document.querySelector('.char-btn.active');
+              if(activeBtn) {
+                const targetId = activeBtn.getAttribute('data-target');
+                console.log('立即根據激活按鈕顯示內容:', targetId);
+                showCharacter(targetId);
+              } else {
+                // 如果沒有激活按鈕，默認顯示全部
+                console.log('立即顯示全部（無激活按鈕）');
+                showCharacter('all');
+              }
+              
+              // 確保lightGallery已初始化
+              setTimeout(function() {
+                if (typeof lightGallery !== 'undefined') {
+                  if (!lightGalleryInstance) {
+                    console.log('立即初始化：嘗試初始化lightGallery');
+                    
+                    // 確保在"全部"模式下有可見的圖片 - 修改選擇器語法
+                    const allBtnSelector = '.char-btn[data-target=all]';
+                    const allButton = document.querySelector(allBtnSelector);
+                    if (allButton) {
+                      if (allButton.classList.contains('active')) {
+                        // 檢查是否有可見的圖片
+                        const visibleItems = document.querySelectorAll('.masonry-item.show');
+                        if (visibleItems.length === 0) {
+                          console.log('沒有可見圖片，嘗試修復可見性');
+                          // 再次調用showCharacter來修復可見性
+                          showCharacter('all');
+                        }
+                      }
+                    }
+                    
+                    initLightGallery();
+                  }
+                }
+              }, 500);
+            }, 300);
+          } else {
+            waitForGlide();
+          }
+        }
+      }, 100);
+    }
+  }
+
+  // 初始化 lightGallery
+  function initLightGallery() {
+    // 添加調試信息
+    console.log('開始初始化 lightGallery...');
+    console.log('lightGallery 是否已加載:', typeof lightGallery !== 'undefined');
+    console.log('lgZoom 是否已加載:', typeof window.lgZoom !== 'undefined');
+    console.log('lgMediumZoom 是否已加載:', typeof window.lgMediumZoom !== 'undefined');
+    
+    if(typeof lightGallery === 'undefined') {
+      console.error('lightGallery 未加載，無法初始化，嘗試手動加載');
+      loadLightGalleryManually();
+      return;
+    }
+    
+    // 如果已經存在實例，先銷毀
+    if(lightGalleryInstance) {
+      try {
+        console.log('銷毀先前的lightGallery實例');
+        lightGalleryInstance.destroy();
+      } catch (e) {
+        console.error('銷毀lightGallery實例時出錯:', e);
+      } finally {
+        lightGalleryInstance = null;
+      }
+    }
+    
+    try {
+      console.log('初始化 lightGallery (MediumZoom模式)...');
+      
+      // 確保所有圖片項目都已正確標記為可見或隱藏
+      const allItems = document.querySelectorAll('.masonry-item');
+      console.log(`總圖片項目數: ${allItems.length}`);
+      
+      // 檢查是否有可見的圖片
+      const imgLinks = document.querySelectorAll('.masonry-item.show figure.blog-images');
+      console.log(`可見圖片數量: ${imgLinks.length}`);
+      
+      if(imgLinks.length === 0) {
+        console.log('沒有找到可見的圖片鏈接，嘗試修復可見性問題');
+        
+        // 嘗試修復可見性問題 - 如果在"全部"模式下，確保所有項目都可見
+        const allBtnSelector = '.char-btn[data-target=all]';
+        const allButton = document.querySelector(allBtnSelector);
+        if (allButton) {
+          if (allButton.classList.contains('active')) {
+            console.log('檢測到"全部"模式，嘗試修復可見性');
+            
+            // 處理重複圖片 - 創建一個集合來跟踪已顯示的圖片路徑
+            const shownImagePaths = new Set();
+            
+            // 確保所有項目都有正確的可見性
+            allItems.forEach(item => {
+              const img = item.querySelector('img');
+              if (!img) return;
+              
+              const imagePath = img.getAttribute('data-image-path');
+              if (imagePath) {
+                if (!shownImagePaths.has(imagePath)) {
+                  item.classList.add('show');
+                  item.style.display = 'block';
+                  shownImagePaths.add(imagePath);
+                  console.log(`修復圖片可見性: ${imagePath}`);
+                } else {
+                  item.classList.remove('show');
+                  item.style.display = 'none';
+                }
+              }
+            });
+            
+            // 再次檢查可見圖片
+            const fixedImgLinks = document.querySelectorAll('.masonry-item.show figure.blog-images');
+            console.log(`修復後可見圖片數量: ${fixedImgLinks.length}`);
+            
+            if (fixedImgLinks.length === 0) {
+              console.error('修復失敗，仍然沒有可見圖片');
+              return;
+            }
+          } else {
+            console.log('非"全部"模式，無法初始化 lightGallery');
+            return;
+          }
+        } else {
+          console.log('找不到"全部"按鈕，無法初始化 lightGallery');
+          return;
+        }
+      }
+      
+      // 參考官方示例的簡潔配置
+      lightGalleryInstance = lightGallery(document.getElementById('masonry-gallery'), {
+        selector: '.masonry-item.show figure.blog-images',
+        licenseKey: 'GPL3',
+        plugins: [lgMediumZoom],
+        speed: 500,
+        allowMediaOverlap: true,
+        download: false,
+        counter: false,
+        closable: true,
+        showMaximizeIcon: false,
+        showZoomInOutIcons: false,
+        slideEndAnimation: false, // 禁用幻灯片结束动画
+        
+        // Medium Zoom 設定 - 移除过渡动画
+        backdropDuration: 0, // 背景淡入淡出时间设为0
+        cssEasing: 'linear', // 使用线性缓动
+        easing: 'linear',
+        mode: 'lg-medium-zoom',
+        preload: 2,
+        
+        // 禁用缩放动画
+        zoomFromOrigin: false, // 禁用从原位置缩放
+        
+        // Medium Zoom 特有设置
+        mediumZoom: {
+          margin: 40,            // 边距
+          background: 'rgba(0, 0, 0, 0.85)', // 设置为半透明黑色背景
+          scrollOffset: 40,      // 滚动偏移
+        },
+        
+        // 禁用不需要的功能
+        controls: false,
+        thumbnail: false,
+        rotate: false,
+        fullScreen: false,
+        slideDelay: 0, // 取消幻灯片切换延迟
+        hideControlOnEnd: true
+      });
+      
+      console.log('成功初始化 MediumZoom 版 lightGallery（已禁用過渡動畫）');
+    } catch (e) {
+      console.error('初始化 lightGallery 失敗:', e);
+      console.error(e.stack);
+    }
   }
 })();
 </script>
