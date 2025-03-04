@@ -138,6 +138,19 @@ declare module "vfile" {
         socialImage: string
         comments: boolean | string
         icon: string | undefined
+        RealName: string
+        Gender: string | string[]
+        Age: string
+        Height: string
+        Nickname: string
+        Identity: string
+        sticker: string
+        正面感情觸發物: string
+        負面感情觸發物: string
+        category: string
+        image: string
+        Description: string
+        avatar: string
       }>
   }
 }

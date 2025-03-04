@@ -1,3 +1,6 @@
+import { alias } from "yargs"
+import { Description } from "../plugins"
+
 export const QuartzFrontmatterSchema = z.object({
   title: z.string().optional(),
   tags: z.array(z.string()).default([]),
@@ -11,6 +14,7 @@ export const QuartzFrontmatterSchema = z.object({
   Identity: z.string().optional(),
   負面感情觸發物: z.string().optional(),
   category: z.string().optional(),
+
 })
 
 export type QuartzFrontmatter = z.infer<typeof QuartzFrontmatterSchema> 

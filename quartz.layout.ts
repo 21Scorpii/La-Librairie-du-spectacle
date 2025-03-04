@@ -21,10 +21,11 @@ import {
   RecentNotes,
   NotFound,
   Breadcrumbs,
-  Comments
+  Comments,
+  GlossaryCard,
+  CharacterCard
 } from "./quartz/components"
 import ImageGallery from "./quartz/components/ImageGallery"
-import CharacterCard from "./quartz/components/CharacterCard"
 import PortraitSidebar from "./quartz/components/PortraitSidebar"
 
 // components shared across all pages
@@ -49,6 +50,7 @@ export const defaultContentPageLayout: PageLayout = {
     TagList(),
     ImageGallery,
     CharacterCard,
+    GlossaryCard,
   ],
   left: [
     PageTitle(),

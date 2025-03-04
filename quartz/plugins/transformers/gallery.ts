@@ -11,7 +11,7 @@ export const Gallery: QuartzTransformerPlugin = () => {
             // ::: gallery
             // character: 角色ID
             // name: 角色名
-            // description: 描述
+            // description: 
             // link: 鏈接
             // images:
             //   - 圖片1路徑

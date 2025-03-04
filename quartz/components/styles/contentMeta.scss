@@ -1,14 +1,47 @@
 .content-meta {
-  margin-top: 0;
-  color: var(--gray);
-
-  &[show-comma="true"] {
-    > *:not(:last-child) {
-      margin-right: 8px;
-
-      &::after {
-        content: ",";
-      }
+    margin-top: 0;
+    color: var(--gray);
+    &[show-comma="true"] {
+        >*:not(:last-child) {
+            margin-right: 8px;
+            &::after {
+                content: ",";
+            }
+        }
     }
-  }
+}
+
+// 添加词汇表信息的样式
+.glossary-info {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: var(--color-bg-1);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    p {
+        margin: 0.5rem 0;
+    }
+    strong {
+        color: var(--color-secondary);
+        margin-right: 0.5rem;
+    }
+}
+
+.glossary-content {
+    flex: 1;
+}
+
+.glossary-avatar {
+    max-width: 150px;
+    display: flex;
+    justify-content: center;
+    img {
+        max-width: 100%;
+        border-radius: 4px;
+        max-height: 300px;
+        object-fit: contain;
+    }
 }

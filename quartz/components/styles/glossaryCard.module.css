@@ -1,0 +1,71 @@
+.glossaryCard {
+    background-color: var(--color-bg-1);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.content {
+    flex: 1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.infoRow {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    font-weight: bold;
+    min-width: 80px;
+    margin-right: 0.5rem;
+}
+
+.value {
+    flex: 1;
+}
+
+.avatarContainer {
+    max-width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.avatar {
+    max-width: 100%;
+}
+
+.avatar img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}

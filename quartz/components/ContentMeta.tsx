@@ -45,7 +45,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
       // Create a function to display character information
       const displayCharacterInfo = () => {
-        if (frontmatter.category !== "Chara") return null
+        if (frontmatter?.category !== "Chara") return null
 
         return (
           <div className="character-info">
@@ -77,10 +77,31 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         )
       }
 
+      // 创建一个函数来显示词汇条目信息
+      const displayGlossaryInfo = () => {
+        // 检查是否为词汇条目
+        const filePath = fileData.filePath ?? ""
+        if (!filePath.includes('書局概念Glossary(DB)')) return null
+
+        return (
+          <div className="glossary-info">
+            {frontmatter?.Description && (
+              <p><strong>Dscription:</strong> {frontmatter.Description as string}</p>
+            )}
+            {frontmatter?.avatar && (
+              <div className="glossary-avatar">
+                <div dangerouslySetInnerHTML={{ __html: String(frontmatter.avatar) }} />
+              </div>
+            )}
+          </div>
+        )
+      }
+
       return (
         <footer class={classNames(displayClass, "content-meta")}>
           {segments}
           {displayCharacterInfo()}
+          {displayGlossaryInfo()}
         </footer>
       )
     } else {
