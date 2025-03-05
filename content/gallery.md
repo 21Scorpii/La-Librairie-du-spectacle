@@ -694,12 +694,12 @@ body .article .slide-caption h3::after,
       images: [
         {
           src: '_Attach/Image/avatar/tachie/hcz-tachie.webp',
-          alt: '黑村紫立繪',
+          alt: '立繪',
           fallback: null // 無備用圖像
         },
         {
           src: '_Attach/Image/HCZ.webp',
-          alt: '黑村紫',
+          alt: '-',
           fallback: null
         },
         {
@@ -722,7 +722,7 @@ body .article .slide-caption h3::after,
       images: [
         {
           src: '_Attach/Image/avatar/tachie/dsl-tachie.webp',
-          alt: '東山旅立繪',
+          alt: '立繪',
           fallback: '_Attach/Image/avatar/tachie/dsl-tachie.webp'
         },
         {
@@ -732,8 +732,13 @@ body .article .slide-caption h3::after,
         },
         {
           src: '_Attach/Image/DSL.webp',
-          alt: '東山旅',
+          alt: '-',
           fallback: '_Attach/Image/DSL.webp'
+        },
+        {
+          src: '_Attach/Image/Snapseed (1).webp',
+          alt: '-',
+          fallback: '_Attach/Image/Snapseed (1).webp'
         }
       ]
     },
@@ -763,7 +768,7 @@ body .article .slide-caption h3::after,
       images: [
         {
           src: '_Attach/Image/avatar/tachie/kln-tachie.webp',
-          alt: 'Klein立繪',
+          alt: '立繪',
           fallback: '_Attach/Image/avatar/tachie/kln-tachie.webp'
         }
       ]
@@ -781,13 +786,18 @@ body .article .slide-caption h3::after,
         },
         {
           src: '_Attach/Image/rjhm2.webp',
-          alt: '海馬體',
+          alt: '海嘯',
           fallback: '_Attach/Image/rjhm2.webp'
         },
         {
           src: '_Attach/Image/rjhm3.webp',
-          alt: '海馬體',
+          alt: '-',
           fallback: '_Attach/Image/rjhm3.webp'
+        },
+        {
+          src: '_Attach/Image/rjhm1.webp',
+          alt: '-',
+          fallback: '_Attach/Image/rjhm.webp'
         }
       ]
     },
@@ -809,11 +819,34 @@ body .article .slide-caption h3::after,
         },
         {
           src: '_Attach/Image/IMG_7806.webp',
-          alt: '塔',
+          alt: '-',
           fallback: '_Attach/Image/IMG_7806.webp'
+        },
+        {
+          src: '_Attach/Image/Pastedimage20240319220143.webp',
+          alt: '-',
+          fallback: '_Attach/Image/Pastedimage20240319220143.webp'
         }
       ]
-    }
+     },
+     {
+      id: 'str',
+      name: '花山院 諭',
+      description: '修士(生命科學/數學)',
+      profileLink: '人物設定(DB)/花山院-諭',
+      images: [
+        {
+          src: '_Attach/Image/avatar/tachie/str-tachie.webp',
+          alt: '立繪',
+          fallback: '_Attach/Image/avatar/tachie/str-tachie.webp'
+        },
+        {
+          src: '_Attach/Image/str1.webp',
+          alt: '溫室',
+          fallback: '_Attach/Image/str1.webp'
+        }
+      ]
+      },
     // 添加新角色只需在此處添加新的對象
     // 例如:
     // {

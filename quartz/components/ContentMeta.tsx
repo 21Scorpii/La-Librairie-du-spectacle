@@ -86,7 +86,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         return (
           <div className="glossary-info">
             {frontmatter?.Description && (
-              <p><strong>Dscription:</strong> {frontmatter.Description as string}</p>
+              <p><strong>Description:</strong> {frontmatter.Description as string}</p>
             )}
             {frontmatter?.avatar && (
               <div className="glossary-avatar">

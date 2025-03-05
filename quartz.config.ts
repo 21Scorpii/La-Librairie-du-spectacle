@@ -35,7 +35,7 @@ const config: QuartzConfig = {
       typography: {
         header: "Schibsted Grotesk",
         body: "Source Sans Pro",
-        code: "Noto Sans Traditional Chinese",
+        code: "Noto Sans Traditional Chinese Light",
       },
       colors: {
         lightMode: {
