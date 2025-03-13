@@ -18,7 +18,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "zh-TW",
-    baseUrl: "https://llds.netlify.app",
+    baseUrl: "https://www.llds.art",
     ignorePatterns: [
       "private", 
       "templates", 
